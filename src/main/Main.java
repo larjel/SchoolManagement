@@ -1,10 +1,10 @@
-package schoolmanagement;
+package main;
 
 /**
  *
  * @author Lars Jelleryd
  */
-public class SchoolManagement {
+public class Main {
 
     /**
      * @param args the command line arguments
