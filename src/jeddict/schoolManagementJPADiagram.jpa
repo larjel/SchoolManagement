@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jpa:entity-mappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:java="http://jcp.org/en/jsr/detail?id=270" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jpa="http://java.sun.com/xml/ns/persistence/orm" v="5.2" rws="_15442148571622" Pws="_15442148571622" cws="_15442148571622" persistenceUnitName="DEFAULT_PU" sm="false" xs="false" id="_15442148571611" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm orm_2_1.xsd">
+    <jpa:entity compositePrimaryKeyClass="CoursePK" abs="false" class="Course" pclass="Entity_1" v="true" xre="false" m="false" rootElement="_15442148571611" id="_15442149093543">
+        <jpa:ath>Lars Jelleryd</jpa:ath>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" xvt="" name="name" pname="attribute" id="_154421574498132">
+                <jpa:xwm/>
+                <jpa:xm/>
+            </jpa:basic>
+            <jpa:basic attribute-type="int" v="true" xvt="" name="points" pname="attribute" id="_154421575623833">
+                <jpa:xwm/>
+                <jpa:xm/>
+            </jpa:basic>
+            <jpa:many-to-one optional="true" primaryKey="false" connected-entity-id="_15442149213996" connected-attribute-id="_154422298056836" fetch="EAGER" v="true" xvt="" name="teacher" id="_154422298056635">
+                <jpa:xwm/>
+                <jpa:xm/>
+            </jpa:many-to-one>
+            <jpa:many-to-many collection-type="java.util.List" cit="java.util.ArrayList" connected-entity-id="_15442149255869" connected-attribute-id="_154422304510438" fetch="LAZY" v="true" xvt="" name="educations" id="_154422304510639">
+                <jpa:xwm/>
+                <jpa:xm/>
+            </jpa:many-to-many>
+            <jpa:id attribute-type="Long" v="true" xvt="" name="id" id="_15442149094094">
+                <jpa:xwm/>
+                <jpa:xm/>
+                <jpa:generated-value strategy="AUTO"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq e="false" name="Course.findAll">
+            <jpa:query>Select e from Course e</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Course.findByName">
+            <jpa:query>Select c from Course c where c.name=:name</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Course.findByPoints">
+            <jpa:query>Select c from Course c where c.points=:points</jpa:query>
+        </jpa:nq>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="TeacherPK" abs="false" class="Teacher" pclass="Entity_2" v="true" xre="false" m="false" rootElement="_15442148571611" id="_15442149213996">
+        <jpa:ath>Lars Jelleryd</jpa:ath>
+        <jpa:removedAttributes>
+            <jpa:i>person</jpa:i>
+        </jpa:removedAttributes>
+        <jpa:attributes>
+            <jpa:basic attribute-type="boolean" v="true" xvt="" name="licensed" pname="attribute" id="_154443768422866">
+                <jpa:xwm/>
+                <jpa:xm/>
+            </jpa:basic>
+            <jpa:one-to-many orp="false" collection-type="java.util.List" cit="java.util.ArrayList" connected-entity-id="_15442149093543" connected-attribute-id="_154422298056635" fetch="LAZY" v="true" xvt="" name="courses" id="_154422298056836">
+                <jpa:xwm/>
+                <jpa:xm/>
+            </jpa:one-to-many>
+            <jpa:one-to-one own="true" orp="false" optional="true" primaryKey="false" connected-entity-id="_154421494488415" connected-attribute-id="_154422334539545" fetch="EAGER" v="true" xvt="" name="person" id="_154422334539544">
+                <jpa:xwm/>
+                <jpa:xm/>
+                <jpa:cascade>
+                    <jpa:cascade-persist/>
+                </jpa:cascade>
+            </jpa:one-to-one>
+            <jpa:id attribute-type="Long" v="true" xvt="" name="id" id="_15442149214007">
+                <jpa:xwm/>
+                <jpa:xm/>
+                <jpa:generated-value strategy="AUTO"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq e="false" name="Teacher.findAll">
+            <jpa:query>Select e from Teacher e</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Teacher.findByLicensed">
+            <jpa:query>Select t from Teacher t where t.licensed=:licensed</jpa:query>
+        </jpa:nq>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="EducationPK" abs="false" class="Education" pclass="Entity_3" v="true" xre="false" m="false" rootElement="_15442148571611" id="_15442149255869">
+        <jpa:ath>Lars Jelleryd</jpa:ath>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" name="name" pname="attribute" id="_154421573802631"/>
+            <jpa:one-to-many orp="false" collection-type="java.util.List" cit="java.util.ArrayList" connected-entity-id="_154421492786212" connected-attribute-id="_154422308940041" fetch="LAZY" v="true" xvt="" name="students" id="_154422308940142">
+                <jpa:xwm/>
+                <jpa:xm/>
+            </jpa:one-to-many>
+            <jpa:many-to-many own="true" collection-type="java.util.List" cit="java.util.ArrayList" connected-entity-id="_15442149093543" connected-attribute-id="_154422304510639" fetch="LAZY" v="true" xvt="" name="courses" id="_154422304510438">
+                <jpa:xwm/>
+                <jpa:xm/>
+                <jpa:cascade>
+                    <jpa:cascade-persist/>
+                </jpa:cascade>
+            </jpa:many-to-many>
+            <jpa:id attribute-type="Long" v="true" xvt="" name="id" id="_154421492558710">
+                <jpa:xwm/>
+                <jpa:xm/>
+                <jpa:generated-value strategy="AUTO"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq e="false" name="Education.findAll">
+            <jpa:query>Select e from Education e</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Education.findByName">
+            <jpa:query>Select e from Education e where e.name=:name</jpa:query>
+        </jpa:nq>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="StudentPK" abs="false" class="Student" pclass="Entity_4" v="true" xre="false" m="false" rootElement="_15442148571611" id="_154421492786212">
+        <jpa:ath>Lars Jelleryd</jpa:ath>
+        <jpa:removedAttributes>
+            <jpa:i>person</jpa:i>
+        </jpa:removedAttributes>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" name="points" pname="attribute" id="_154443778667267"/>
+            <jpa:many-to-one optional="true" primaryKey="false" connected-entity-id="_15442149255869" connected-attribute-id="_154422308940142" fetch="EAGER" v="true" xvt="" name="education" id="_154422308940041">
+                <jpa:xwm/>
+                <jpa:xm/>
+            </jpa:many-to-one>
+            <jpa:one-to-one own="true" orp="false" optional="true" primaryKey="false" connected-entity-id="_154421494488415" connected-attribute-id="_154422339399548" fetch="EAGER" v="true" xvt="" name="person" id="_154422339399547">
+                <jpa:xwm/>
+                <jpa:xm/>
+                <jpa:cascade>
+                    <jpa:cascade-persist/>
+                </jpa:cascade>
+            </jpa:one-to-one>
+            <jpa:id attribute-type="Long" v="true" xvt="" name="id" id="_154421492786313">
+                <jpa:xwm/>
+                <jpa:xm/>
+                <jpa:generated-value strategy="AUTO"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq e="false" name="Student.findAll">
+            <jpa:query>Select e from Student e</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Student.findByPoints">
+            <jpa:query>Select s from Student s where s.points=:points</jpa:query>
+        </jpa:nq>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="PersonPK" abs="false" class="Person" pclass="Entity_5" v="true" xre="false" m="false" rootElement="_15442148571611" id="_154421494488415">
+        <jpa:ath>Lars Jelleryd</jpa:ath>
+        <jpa:removedAttributes>
+            <jpa:i>teacher</jpa:i>
+            <jpa:i>student</jpa:i>
+            <jpa:i>attribute</jpa:i>
+        </jpa:removedAttributes>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" xvt="" name="name" pname="attribute" ft="false" id="_154421507106219">
+                <jpa:xwm/>
+                <jpa:xm/>
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true"/>
+            </jpa:basic>
+            <jpa:basic attribute-type="String" v="true" xvt="" name="personalIdNumber" pname="attribute" id="_154443810359668">
+                <jpa:xwm/>
+                <jpa:xm/>
+            </jpa:basic>
+            <jpa:one-to-one orp="false" optional="true" primaryKey="false" connected-entity-id="_15442149213996" connected-attribute-id="_154422334539544" v="true" xvt="" name="teacher" id="_154422334539545">
+                <jpa:xwm/>
+                <jpa:xm/>
+            </jpa:one-to-one>
+            <jpa:one-to-one orp="false" optional="true" primaryKey="false" connected-entity-id="_154421492786212" connected-attribute-id="_154422339399547" v="true" xvt="" name="student" id="_154422339399548">
+                <jpa:xwm/>
+                <jpa:xm/>
+            </jpa:one-to-one>
+            <jpa:id attribute-type="Long" v="true" xvt="" name="id" id="_154421494488416">
+                <jpa:xwm/>
+                <jpa:xm/>
+                <jpa:generated-value strategy="AUTO"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq e="false" name="Person.findAll">
+            <jpa:query>Select e from Person e</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Person.findByFirstName">
+            <jpa:query>Select p from Person p where p.firstName=:firstName</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Person.findByName">
+            <jpa:query>Select p from Person p where p.name=:name</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Person.findByPersonalIdNumber">
+            <jpa:query>Select p from Person p where p.personalIdNumber=:personalIdNumber</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Person.findByCoordinationNumber">
+            <jpa:query>Select p from Person p where p.coordinationNumber=:coordinationNumber</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Person.findByDateOfBirth">
+            <jpa:query>Select p from Person p where p.dateOfBirth=:dateOfBirth</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Person.findByGender">
+            <jpa:query>Select p from Person p where p.gender=:gender</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Person.findByAddress">
+            <jpa:query>Select p from Person p where p.address=:address</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Person.findByPersonalIdNumber">
+            <jpa:query>Select p from Person p where p.personalIdNumber=:personalIdNumber</jpa:query>
+        </jpa:nq>
+    </jpa:entity>
+    <jpa:c>
+        <ct>java.util.List</ct>
+        <ct>java.util.Set</ct>
+        <ct>java.util.Map</ct>
+        <ct>java.util.Collection</ct>
+        <cit>java.util.ArrayList</cit>
+        <cit>java.util.LinkedList</cit>
+        <cit>java.util.HashSet</cit>
+        <cit>java.util.TreeSet</cit>
+        <cit>java.util.HashMap</cit>
+    </jpa:c>
+    <jpa:wsl>
+        <jpa:ws n="Main" id="_15442148571622">
+            <i ref="_15442149255869" x="163" y="318"/>
+            <i ref="_15442149213996" x="495" y="80"/>
+            <i ref="_154421494488415" x="749" y="193"/>
+            <i ref="_15442149093543" x="178" y="97"/>
+            <i ref="_154421492786212" x="498" y="341"/>
+        </jpa:ws>
+    </jpa:wsl>
+</jpa:entity-mappings>
