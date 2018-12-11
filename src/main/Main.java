@@ -1,5 +1,7 @@
 package main;
 
+import database.MyEntityManager;
+
 /**
  * Slutprojekt - School Management
  *
@@ -12,7 +14,7 @@ public class Main {
      */
     public static void main(String[] args) {
         try {
-            MyEntityManager.create("<TODO>");
+            MyEntityManager.create("DEFAULT_PU");
             while (Menu.run()) {
             }
         } finally {

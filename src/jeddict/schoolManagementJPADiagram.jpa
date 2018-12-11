@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<jpa:entity-mappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:java="http://jcp.org/en/jsr/detail?id=270" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jpa="http://java.sun.com/xml/ns/persistence/orm" v="5.2" rws="_15442148571622" Pws="_15442148571622" cws="_15442148571622" persistenceUnitName="DEFAULT_PU" sm="false" xs="false" id="_15442148571611" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm orm_2_1.xsd">
-    <jpa:entity compositePrimaryKeyClass="CoursePK" abs="false" class="Course" pclass="Entity_1" v="true" xre="false" m="false" rootElement="_15442148571611" id="_15442149093543">
+<jpa:entity-mappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:java="http://jcp.org/en/jsr/detail?id=270" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jpa="http://java.sun.com/xml/ns/persistence/orm" ptype="MONOLITH" ppkg="database" epkg="domain" v="5.2" rws="_15442148571622" Pws="_15442148571622" cws="_15442148571622" persistenceUnitName="DEFAULT_PU" sm="false" xs="false" id="_15442148571611" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm orm_2_1.xsd">
+    <jpa:entity compositePrimaryKeyClass="CoursePK" abs="false" class="Course" v="true" jbn="false" xre="false" m="false" rootElement="_15442148571611" id="_15442149093543">
         <jpa:ath>Lars Jelleryd</jpa:ath>
         <jpa:attributes>
-            <jpa:basic attribute-type="String" v="true" xvt="" name="name" pname="attribute" id="_154421574498132">
+            <jpa:basic attribute-type="String" v="true" xvt="" name="name" id="_154421574498132">
                 <jpa:xwm/>
                 <jpa:xm/>
             </jpa:basic>
-            <jpa:basic attribute-type="int" v="true" xvt="" name="points" pname="attribute" id="_154421575623833">
+            <jpa:basic attribute-type="int" v="true" xvt="" name="points" id="_154421575623833">
                 <jpa:xwm/>
                 <jpa:xm/>
             </jpa:basic>
@@ -35,13 +35,10 @@
             <jpa:query>Select c from Course c where c.points=:points</jpa:query>
         </jpa:nq>
     </jpa:entity>
-    <jpa:entity compositePrimaryKeyClass="TeacherPK" abs="false" class="Teacher" pclass="Entity_2" v="true" xre="false" m="false" rootElement="_15442148571611" id="_15442149213996">
+    <jpa:entity compositePrimaryKeyClass="TeacherPK" abs="false" class="Teacher" v="true" jbn="false" xre="false" m="false" rootElement="_15442148571611" id="_15442149213996">
         <jpa:ath>Lars Jelleryd</jpa:ath>
-        <jpa:removedAttributes>
-            <jpa:i>person</jpa:i>
-        </jpa:removedAttributes>
         <jpa:attributes>
-            <jpa:basic attribute-type="boolean" v="true" xvt="" name="licensed" pname="attribute" id="_154443768422866">
+            <jpa:basic attribute-type="boolean" v="true" xvt="" name="licensed" id="_154443768422866">
                 <jpa:xwm/>
                 <jpa:xm/>
             </jpa:basic>
@@ -69,10 +66,13 @@
             <jpa:query>Select t from Teacher t where t.licensed=:licensed</jpa:query>
         </jpa:nq>
     </jpa:entity>
-    <jpa:entity compositePrimaryKeyClass="EducationPK" abs="false" class="Education" pclass="Entity_3" v="true" xre="false" m="false" rootElement="_15442148571611" id="_15442149255869">
+    <jpa:entity compositePrimaryKeyClass="EducationPK" abs="false" class="Education" v="true" jbn="false" xre="false" m="false" rootElement="_15442148571611" id="_15442149255869">
         <jpa:ath>Lars Jelleryd</jpa:ath>
         <jpa:attributes>
-            <jpa:basic attribute-type="String" v="true" name="name" pname="attribute" id="_154421573802631"/>
+            <jpa:basic attribute-type="String" v="true" xvt="" name="name" id="_154421573802631">
+                <jpa:xwm/>
+                <jpa:xm/>
+            </jpa:basic>
             <jpa:one-to-many orp="false" collection-type="java.util.List" cit="java.util.ArrayList" connected-entity-id="_154421492786212" connected-attribute-id="_154422308940041" fetch="LAZY" v="true" xvt="" name="students" id="_154422308940142">
                 <jpa:xwm/>
                 <jpa:xm/>
@@ -97,13 +97,13 @@
             <jpa:query>Select e from Education e where e.name=:name</jpa:query>
         </jpa:nq>
     </jpa:entity>
-    <jpa:entity compositePrimaryKeyClass="StudentPK" abs="false" class="Student" pclass="Entity_4" v="true" xre="false" m="false" rootElement="_15442148571611" id="_154421492786212">
+    <jpa:entity compositePrimaryKeyClass="StudentPK" abs="false" class="Student" v="true" jbn="false" xre="false" m="false" rootElement="_15442148571611" id="_154421492786212">
         <jpa:ath>Lars Jelleryd</jpa:ath>
-        <jpa:removedAttributes>
-            <jpa:i>person</jpa:i>
-        </jpa:removedAttributes>
         <jpa:attributes>
-            <jpa:basic attribute-type="String" v="true" name="points" pname="attribute" id="_154443778667267"/>
+            <jpa:basic attribute-type="String" v="true" xvt="" name="points" id="_154443778667267">
+                <jpa:xwm/>
+                <jpa:xm/>
+            </jpa:basic>
             <jpa:many-to-one optional="true" primaryKey="false" connected-entity-id="_15442149255869" connected-attribute-id="_154422308940142" fetch="EAGER" v="true" xvt="" name="education" id="_154422308940041">
                 <jpa:xwm/>
                 <jpa:xm/>
@@ -128,20 +128,15 @@
             <jpa:query>Select s from Student s where s.points=:points</jpa:query>
         </jpa:nq>
     </jpa:entity>
-    <jpa:entity compositePrimaryKeyClass="PersonPK" abs="false" class="Person" pclass="Entity_5" v="true" xre="false" m="false" rootElement="_15442148571611" id="_154421494488415">
+    <jpa:entity compositePrimaryKeyClass="PersonPK" abs="false" class="Person" v="true" jbn="false" xre="false" m="false" rootElement="_15442148571611" id="_154421494488415">
         <jpa:ath>Lars Jelleryd</jpa:ath>
-        <jpa:removedAttributes>
-            <jpa:i>teacher</jpa:i>
-            <jpa:i>student</jpa:i>
-            <jpa:i>attribute</jpa:i>
-        </jpa:removedAttributes>
         <jpa:attributes>
-            <jpa:basic attribute-type="String" v="true" xvt="" name="name" pname="attribute" ft="false" id="_154421507106219">
+            <jpa:basic attribute-type="String" v="true" xvt="" name="name" ft="false" id="_154421507106219">
                 <jpa:xwm/>
                 <jpa:xm/>
                 <jpa:column unique="false" nullable="false" insertable="true" updatable="true"/>
             </jpa:basic>
-            <jpa:basic attribute-type="String" v="true" xvt="" name="personalIdNumber" pname="attribute" id="_154443810359668">
+            <jpa:basic attribute-type="String" v="true" xvt="" name="personalIdNumber" id="_154443810359668">
                 <jpa:xwm/>
                 <jpa:xm/>
             </jpa:basic>
@@ -204,7 +199,7 @@
             <i ref="_15442149213996" x="495" y="80"/>
             <i ref="_154421494488415" x="749" y="193"/>
             <i ref="_15442149093543" x="178" y="97"/>
-            <i ref="_154421492786212" x="498" y="341"/>
+            <i ref="_154421492786212" x="498" y="342"/>
         </jpa:ws>
     </jpa:wsl>
 </jpa:entity-mappings>
