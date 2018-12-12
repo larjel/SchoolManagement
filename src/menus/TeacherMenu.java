@@ -16,7 +16,7 @@ public enum TeacherMenu implements MenuInterface {
     OPT_ADD_TEACHER(2, "Add teacher"),
     OPT_UPDATE_TEACHER(3, "Update teacher"),
     OPT_DELETE_TEACHER(4, "Delete teacher"),
-    OPT_EXIT(0, "Exit");
+    OPT_EXIT(0, "Back to main menu");
 
     private final int numeric;
     private final String text;
@@ -43,7 +43,7 @@ public enum TeacherMenu implements MenuInterface {
     public static boolean run() {
         try {
             // Display the menu
-            MenuInterface.printMenu("MAIN MENU", TeacherMenu.values());
+            MenuInterface.printMenu("TEACHER MANAGEMENT", TeacherMenu.values());
             // Wait for user input
             TeacherMenu option = MenuInterface.numericToEnum(SystemInput.getInt(), TeacherMenu.values());
             switch (option) {
@@ -93,14 +93,12 @@ public enum TeacherMenu implements MenuInterface {
 
     //--------------------------------------------------------------
     private static void deleteTeacher() throws SystemInputAbortedException {
-        System.out.print("Dummy code: ");
-        String name = SystemInput.getStringAbortOnEmpty();
+        System.out.println("NOT IMPLEMENTED!");
     }
 
     //--------------------------------------------------------------
     private static void updateTeacher() throws SystemInputAbortedException {
-        System.out.print("Dummy code: ");
-        String name = SystemInput.getStringAbortOnEmpty();
+        System.out.println("NOT IMPLEMENTED!");
     }
 
     //--------------------------------------------------------------
@@ -115,6 +113,8 @@ public enum TeacherMenu implements MenuInterface {
         int salary = SystemInput.getIntAbortOnEmpty();
 
         TeacherJpaController.addTeacher(new Teacher(name, idNum, salary));
+
+        System.out.println(">>> Teacher added successfully!");
     }
 
 }

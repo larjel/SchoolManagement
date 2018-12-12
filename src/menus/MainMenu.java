@@ -13,7 +13,7 @@ public enum MainMenu implements MenuInterface {
     OPT_MANAGE_TEACHERS(2, "Manage teachers"),
     OPT_MANAGE_COURSES(3, "Manage courses"),
     OPT_MANAGE_EDUCATIONS(4, "Manage educations"),
-    OPT_EXIT(0, "Exit");
+    OPT_EXIT(0, "Exit program");
 
     private final int numeric;
     private final String text;
@@ -38,67 +38,36 @@ public enum MainMenu implements MenuInterface {
 
     //--------------------------------------------------------------
     public static boolean run() {
-        try {
-            // Display the menu
-            MenuInterface.printMenu("MAIN MENU", MainMenu.values());
-            // Wait for user input
-            MainMenu option = MenuInterface.numericToEnum(SystemInput.getInt(), MainMenu.values());
-            switch (option) {
-                case OPT_EXIT:
-                    return false;
-                case OPT_MANAGE_STUDENTS:
-                    manageStudents();
-                    break;
-                case OPT_MANAGE_TEACHERS:
-                    while (TeacherMenu.run()) {
-                    }
-                    break;
-                case OPT_MANAGE_COURSES:
-                    manageCourses();
-                    break;
-                case OPT_MANAGE_EDUCATIONS:
-                    manageEducations();
-                    break;
-                case OPT_INVALID:
-                default:
-                    System.out.println(">>> Invalid menu choice! Try again.");
-                    break;
-            }
-
-        } catch (SystemInputAbortedException e) {
-            System.out.println(">>> Aborted due to empty input!");
-        } catch (Exception e) {
-            System.out.println(">>> Operation failed: " + e.getMessage());
+        // Display the menu
+        MenuInterface.printMenu("MAIN MENU", MainMenu.values());
+        // Wait for user input
+        MainMenu option = MenuInterface.numericToEnum(SystemInput.getInt(), MainMenu.values());
+        switch (option) {
+            case OPT_EXIT:
+                return false;
+            case OPT_MANAGE_STUDENTS:
+                while (StudentMenu.run()) {
+                }
+                break;
+            case OPT_MANAGE_TEACHERS:
+                while (TeacherMenu.run()) {
+                }
+                break;
+            case OPT_MANAGE_COURSES:
+                while (CourseMenu.run()) {
+                }
+                break;
+            case OPT_MANAGE_EDUCATIONS:
+                while (EducationMenu.run()) {
+                }
+                break;
+            case OPT_INVALID:
+            default:
+                System.out.println(">>> Invalid menu choice! Try again.");
+                break;
         }
 
-        System.out.println("Press Enter to continue...");
-        SystemInput.getString();
-
         return true;
-    }
-
-    //--------------------------------------------------------------
-    private static void manageCourses() throws SystemInputAbortedException {
-        System.out.print("Dummy code: ");
-        String name = SystemInput.getStringAbortOnEmpty();
-    }
-
-    //--------------------------------------------------------------
-    private static void manageTeachers() throws SystemInputAbortedException {
-        System.out.print("Dummy code: ");
-        String name = SystemInput.getStringAbortOnEmpty();
-    }
-
-    //--------------------------------------------------------------
-    private static void manageEducations() throws SystemInputAbortedException {
-        System.out.print("Dummy code: ");
-        String name = SystemInput.getStringAbortOnEmpty();
-    }
-
-    //--------------------------------------------------------------
-    private static void manageStudents() throws SystemInputAbortedException {
-        System.out.print("Dummy code: ");
-        String name = SystemInput.getStringAbortOnEmpty();
     }
 
 }
