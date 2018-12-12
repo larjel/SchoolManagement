@@ -1,5 +1,6 @@
 package main;
 
+import menus.MainMenu;
 import database.MyEntityManager;
 
 /**
@@ -15,7 +16,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             MyEntityManager.create("DEFAULT_PU");
-            while (Menu.run()) {
+            while (MainMenu.run()) {
             }
         } finally {
             MyEntityManager.close();

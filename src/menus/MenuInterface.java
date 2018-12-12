@@ -1,4 +1,4 @@
-package userio;
+package menus;
 
 /**
  * Interface for implementing enum based menus. Also contains helper methods for

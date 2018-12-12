@@ -1,6 +1,5 @@
-package main;
+package menus;
 
-import userio.MenuInterface;
 import userio.SystemInput;
 import userio.SystemInputAbortedException;
 
@@ -8,7 +7,7 @@ import userio.SystemInputAbortedException;
  *
  * @author Lars Jelleryd
  */
-public enum Menu implements MenuInterface {
+public enum MainMenu implements MenuInterface {
     OPT_INVALID(-1, "Invalid"), // First enum is required to be 'invalid'
     OPT_MANAGE_STUDENTS(1, "Manage students"),
     OPT_MANAGE_TEACHERS(2, "Manage teachers"),
@@ -20,7 +19,7 @@ public enum Menu implements MenuInterface {
     private final String text;
 
     //--------------------------------------------------------------
-    private Menu(int numeric, String text) {
+    private MainMenu(int numeric, String text) {
         this.numeric = numeric;
         this.text = text;
     }
@@ -41,9 +40,9 @@ public enum Menu implements MenuInterface {
     public static boolean run() {
         try {
             // Display the menu
-            MenuInterface.printMenu("MAIN MENU", Menu.values());
+            MenuInterface.printMenu("MAIN MENU", MainMenu.values());
             // Wait for user input
-            Menu option = MenuInterface.numericToEnum(SystemInput.getInt(), Menu.values());
+            MainMenu option = MenuInterface.numericToEnum(SystemInput.getInt(), MainMenu.values());
             switch (option) {
                 case OPT_EXIT:
                     return false;
@@ -51,7 +50,8 @@ public enum Menu implements MenuInterface {
                     manageStudents();
                     break;
                 case OPT_MANAGE_TEACHERS:
-                    manageTeachers();
+                    while (TeacherMenu.run()) {
+                    }
                     break;
                 case OPT_MANAGE_COURSES:
                     manageCourses();
