@@ -30,14 +30,11 @@ public class TeacherJpaController {
     }
 
     public static Teacher findTeacherById(long id) {
-        try {
-            return MyEntityManager.get()
-                    .createNamedQuery("Teacher.findById", Teacher.class)
-                    .setParameter("id", id)
-                    .getSingleResult();
-        } catch (NoResultException e) {
+        Teacher teacher = MyEntityManager.get().find(Teacher.class, id);
+        if (teacher == null) {
             throw new NoResultException("No teacher with ID " + id + " exists!");
         }
+        return teacher;
     }
 
     public static void addTeacher(Teacher teacher) {
@@ -57,8 +54,8 @@ public class TeacherJpaController {
         }
     }
 
-    public static void deleteTeacher(String personalIdNumber) {
-        Teacher teacher = findTeacherByPersonalIdNumber(personalIdNumber);
+    public static void deleteTeacher(long id) {
+        Teacher teacher = findTeacherById(id);
 
         final EntityManager em = MyEntityManager.get();
         final EntityTransaction tx = em.getTransaction();
@@ -74,8 +71,8 @@ public class TeacherJpaController {
         }
     }
 
-    public static List<Course> getTeacherCourses(String personalIdNumber) {
-        Teacher teacher = findTeacherByPersonalIdNumber(personalIdNumber);
+    public static List<Course> getTeacherCourses(long id) {
+        Teacher teacher = findTeacherById(id);
         return Collections.unmodifiableList(teacher.getCourses());
     }
 

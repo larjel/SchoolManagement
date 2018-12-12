@@ -3,6 +3,7 @@ package menus;
 import database.controller.CourseJpaController;
 import database.domain.Course;
 import java.util.List;
+import userio.DisplayInfo;
 import userio.SystemInput;
 import userio.SystemInputAbortedException;
 
@@ -85,9 +86,15 @@ public enum CourseMenu implements MenuInterface {
         if (courses.isEmpty()) {
             System.out.println("No courses in database");
         } else {
-            System.out.println("Courses:");
+            DisplayInfo di = new DisplayInfo("ID   ",
+                    "NAME                ", "POINTS  ", "TEACHER           ");
+            di.printHeader();
             for (Course course : courses) {
-                System.out.println(" - " + course.getId() + ": " + course.getName());
+                String id = Long.toString(course.getId());
+                String name = course.getName();
+                String points = Integer.toString(course.getPoints());
+                String teacher = (course.getTeacher() == null) ? "<Unassigned>" : course.getTeacher().getName();
+                di.printRow(id, name, points, teacher);
             }
         }
     }

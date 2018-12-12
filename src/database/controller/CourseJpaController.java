@@ -29,14 +29,11 @@ public class CourseJpaController {
     }
 
     public static Course findCourseById(long id) {
-        try {
-            return MyEntityManager.get()
-                    .createNamedQuery("Course.findById", Course.class)
-                    .setParameter("id", id)
-                    .getSingleResult();
-        } catch (NoResultException e) {
+        Course course = MyEntityManager.get().find(Course.class, id);
+        if (course == null) {
             throw new NoResultException("No course with ID " + id + " exists!");
         }
+        return course;
     }
 
     public static void addCourse(Course course) {

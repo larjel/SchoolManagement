@@ -20,14 +20,11 @@ public class EducationJpaController {
     }
 
     public static Education findEducationById(long id) {
-        try {
-            return MyEntityManager.get()
-                    .createNamedQuery("Education.findById", Education.class)
-                    .setParameter("id", id)
-                    .getSingleResult();
-        } catch (NoResultException e) {
+        Education education = MyEntityManager.get().find(Education.class, id);
+        if (education == null) {
             throw new NoResultException("No education with ID " + id + " exists!");
         }
+        return education;
     }
 
     public static void addEducation(Education education) {

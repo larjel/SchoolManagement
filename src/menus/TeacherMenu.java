@@ -3,6 +3,7 @@ package menus;
 import database.controller.TeacherJpaController;
 import database.domain.Teacher;
 import java.util.List;
+import userio.DisplayInfo;
 import userio.SystemInput;
 import userio.SystemInputAbortedException;
 
@@ -85,16 +86,26 @@ public enum TeacherMenu implements MenuInterface {
         if (teachers.isEmpty()) {
             System.out.println("No teachers in database");
         } else {
-            System.out.println("Teachers:");
+            DisplayInfo di = new DisplayInfo("ID   ",
+                    "NAME                ", "PERS.ID#       ");
+            di.printHeader();
             for (Teacher teacher : teachers) {
-                System.out.println(" - " + teacher.getName() + " (" + teacher.getPersonalIdNumber() + ")");
+                String id = Long.toString(teacher.getId());
+                String name = teacher.getName();
+                String personalIdNumber = teacher.getPersonalIdNumber();
+                di.printRow(id, name, personalIdNumber);
             }
         }
     }
 
     //--------------------------------------------------------------
     private static void deleteTeacher() throws SystemInputAbortedException {
-        System.out.println("NOT IMPLEMENTED!");
+        System.out.print("ID of teacher to remove: ");
+        int id = SystemInput.getIntAbortOnEmpty();
+
+        TeacherJpaController.deleteTeacher(id);
+
+        System.out.println(">>> Teacher successfully deleted!");
     }
 
     //--------------------------------------------------------------
