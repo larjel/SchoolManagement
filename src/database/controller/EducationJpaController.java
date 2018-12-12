@@ -19,7 +19,18 @@ public class EducationJpaController {
         }
     }
 
-    public static void addEcucation(Education education) {
+    public static Education findEducationById(long id) {
+        try {
+            return MyEntityManager.get()
+                    .createNamedQuery("Education.findById", Education.class)
+                    .setParameter("id", id)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            throw new NoResultException("No education with ID " + id + " exists!");
+        }
+    }
+
+    public static void addEducation(Education education) {
         if (educationExists(education)) {
             throw new RuntimeException("Education already exists");
         }
@@ -36,7 +47,7 @@ public class EducationJpaController {
         }
     }
 
-    public static List<Education> getAllEducation() {
+    public static List<Education> getAllEducations() {
         return MyEntityManager.get()
                 .createNamedQuery("Education.findAll", Education.class)
                 .getResultList();

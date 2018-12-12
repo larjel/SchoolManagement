@@ -2,7 +2,7 @@ package database.controller;
 
 import database.MyEntityManager;
 import database.domain.Student;
-import database.domain.Teacher;
+import java.util.List;
 import javax.persistence.*;
 
 public class StudentJpaController {
@@ -13,7 +13,6 @@ public class StudentJpaController {
                     .createNamedQuery("Student.findByPersonalIdNumber", Student.class)
                     .setParameter("personalIdNumber", student.getPersonalIdNumber())
                     .getSingleResult();
-
             return true;
         } catch (NoResultException e) {
             return false;
@@ -35,6 +34,12 @@ public class StudentJpaController {
             MyEntityManager.rollback(tx);
             throw e;
         }
+    }
+
+    public static List<Student> getAllStudents() {
+        return MyEntityManager.get()
+                .createNamedQuery("Student.findAll", Student.class)
+                .getResultList();
     }
 
 }
