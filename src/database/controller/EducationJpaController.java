@@ -1,17 +1,17 @@
 package database.controller;
 
 import database.MyEntityManager;
-import database.domain.Teacher;
+import database.domain.Education;
 import java.util.List;
 import javax.persistence.*;
 
 public class EducationJpaController {
 
-    private static boolean teacherExists(Teacher teacher) {
+    private static boolean educationExists(Education education) {
         try {
             MyEntityManager.get()
-                    .createNamedQuery("Teacher.findByPersonalIdNumber", Teacher.class)
-                    .setParameter("personalIdNumber", teacher.getPersonalIdNumber())
+                    .createNamedQuery("Education.findByName", Education.class)
+                    .setParameter("name", education.getName())
                     .getSingleResult();
             return true;
         } catch (NoResultException e) {
@@ -19,16 +19,16 @@ public class EducationJpaController {
         }
     }
 
-    public static void addTeacher(Teacher teacher) {
-        if (teacherExists(teacher)) {
-            throw new RuntimeException("Teacher already exists");
+    public static void addEcucation(Education education) {
+        if (educationExists(education)) {
+            throw new RuntimeException("Education already exists");
         }
 
         final EntityManager em = MyEntityManager.get();
         final EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
-            em.persist(teacher);
+            em.persist(education);
             tx.commit();
         } catch (RuntimeException e) {
             MyEntityManager.rollback(tx);
@@ -36,9 +36,9 @@ public class EducationJpaController {
         }
     }
 
-    public static List<Teacher> getAllTeachers() {
+    public static List<Education> getAllEducation() {
         return MyEntityManager.get()
-                .createNamedQuery("Teacher.findAll", Teacher.class)
+                .createNamedQuery("Education.findAll", Education.class)
                 .getResultList();
     }
 
