@@ -85,8 +85,9 @@ public enum EducationMenu implements MenuInterface {
         if (educations.isEmpty()) {
             System.out.println("No educations in database");
         } else {
+            System.out.println("Educations:");
             for (Education education : educations) {
-                System.out.println("Education: " + education);
+                System.out.println(" - " + education.getId() + ": " + education.getName());
             }
         }
     }

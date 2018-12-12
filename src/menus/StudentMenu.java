@@ -87,8 +87,15 @@ public enum StudentMenu implements MenuInterface {
         if (students.isEmpty()) {
             System.out.println("No students in database");
         } else {
+            System.out.println("Students: ");
             for (Student student : students) {
-                System.out.println("Student: " + student);
+                System.out.print(" - " + student.getName()
+                        + " (" + student.getPersonalIdNumber() + ") is registered at: ");
+                if (student.getEducation() == null) {
+                    System.out.println("<No Education>");
+                } else {
+                    System.out.println(student.getEducation().getName());
+                }
             }
         }
     }

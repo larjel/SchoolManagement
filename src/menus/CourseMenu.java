@@ -85,8 +85,9 @@ public enum CourseMenu implements MenuInterface {
         if (courses.isEmpty()) {
             System.out.println("No courses in database");
         } else {
+            System.out.println("Courses:");
             for (Course course : courses) {
-                System.out.println("Course: " + course);
+                System.out.println(" - " + course.getId() + ": " + course.getName());
             }
         }
     }

@@ -85,8 +85,9 @@ public enum TeacherMenu implements MenuInterface {
         if (teachers.isEmpty()) {
             System.out.println("No teachers in database");
         } else {
+            System.out.println("Teachers:");
             for (Teacher teacher : teachers) {
-                System.out.println("Teacher: " + teacher);
+                System.out.println(" - " + teacher.getName() + " (" + teacher.getPersonalIdNumber() + ")");
             }
         }
     }
