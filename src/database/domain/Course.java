@@ -1,9 +1,9 @@
 package database.domain;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -11,21 +11,30 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  * @author Lars Jelleryd
  */
 @Entity
-public class Course implements Serializable {
+@NamedQueries({
+    @NamedQuery(name = "Course.findAll", query = "SELECT c FROM Course c")
+    , @NamedQuery(name = "Course.findById", query = "SELECT c FROM Course c WHERE c.id = :id")
+    , @NamedQuery(name = "Course.findByName", query = "SELECT c FROM Course c WHERE c.name = :name")
+    , @NamedQuery(name = "Course.findByPoints", query = "SELECT t FROM Course t WHERE t.points = :points")})
+public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Basic
+    @Column(unique = true, nullable = false)
     private String name;
 
     @Basic
+    @Column(nullable = false)
     private int points;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -33,6 +42,20 @@ public class Course implements Serializable {
 
     @ManyToMany(mappedBy = "courses", fetch = FetchType.LAZY)
     private List<Education> educations;
+
+    public Course() {
+    }
+
+    public Course(String name, int points) {
+        this.name = name;
+        this.points = points;
+    }
+
+    public Course(String name, int points, Teacher teacher) {
+        this.name = name;
+        this.points = points;
+        this.teacher = teacher;
+    }
 
     public Long getId() {
         return id;

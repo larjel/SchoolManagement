@@ -1,8 +1,7 @@
 package database.domain;
 
-import java.io.Serializable;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -11,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 
 /**
  * @author Lars Jelleryd
@@ -20,22 +18,33 @@ import javax.persistence.OneToOne;
 @NamedQueries({
     @NamedQuery(name = "Student.findAll", query = "SELECT s FROM Student s")
     , @NamedQuery(name = "Student.findById", query = "SELECT s FROM Student s WHERE s.id = :id")
-    , @NamedQuery(name = "Student.findByName", query = "SELECT s FROM Student s WHERE s.person.name = :name")
-    , @NamedQuery(name = "Student.findByPersonalIdNumber", query = "SELECT s FROM Student s WHERE s.person.personalIdNumber = :personalIdNumber")})
-public class Student implements Serializable {
+    , @NamedQuery(name = "Student.findByName", query = "SELECT s FROM Student s WHERE s.name = :name")
+    , @NamedQuery(name = "Student.findByPersonalIdNumber", query = "SELECT s FROM Student s WHERE s.personalIdNumber = :personalIdNumber")})
+public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Basic
-    private String points;
+    @Column(nullable = false)
+    private String name;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    private Person person;
+    @Basic
+    @Column(unique = true, nullable = false)
+    private String personalIdNumber;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Education education;
+
+    public Student() {
+    }
+
+    public Student(String name, String personalIdNumber, Education education) {
+        this.name = name;
+        this.personalIdNumber = personalIdNumber;
+        this.education = education;
+    }
 
     public Long getId() {
         return id;
@@ -45,20 +54,20 @@ public class Student implements Serializable {
         this.id = id;
     }
 
-    public String getPoints() {
-        return points;
+    public String getName() {
+        return name;
     }
 
-    public void setPoints(String points) {
-        this.points = points;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Person getPerson() {
-        return person;
+    public String getPersonalIdNumber() {
+        return personalIdNumber;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setPersonalIdNumber(String personalIdNumber) {
+        this.personalIdNumber = personalIdNumber;
     }
 
     public Education getEducation() {

@@ -1,10 +1,9 @@
 package database.domain;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 /**
  * @author Lars Jelleryd
@@ -22,22 +20,37 @@ import javax.persistence.OneToOne;
 @NamedQueries({
     @NamedQuery(name = "Teacher.findAll", query = "SELECT t FROM Teacher t")
     , @NamedQuery(name = "Teacher.findById", query = "SELECT t FROM Teacher t WHERE t.id = :id")
-    , @NamedQuery(name = "Teacher.findByName", query = "SELECT t FROM Teacher t WHERE t.person.name = :name")
-    , @NamedQuery(name = "Teacher.findByPersonalIdNumber", query = "SELECT t FROM Teacher t WHERE t.person.personalIdNumber = :personalIdNumber")})
-public class Teacher implements Serializable {
+    , @NamedQuery(name = "Teacher.findByName", query = "SELECT t FROM Teacher t WHERE t.name = :name")
+    , @NamedQuery(name = "Teacher.findByPersonalIdNumber", query = "SELECT t FROM Teacher t WHERE t.personalIdNumber = :personalIdNumber")})
+public class Teacher {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Basic
-    private boolean licensed;
+    @Column(nullable = false)
+    private String name;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    private Person person;
+    @Basic
+    @Column(unique = true, nullable = false)
+    private String personalIdNumber;
+
+    @Basic
+    @Column(nullable = false)
+    private int salary;
 
     @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY)
     private List<Course> courses;
+
+    public Teacher() {
+    }
+
+    public Teacher(String name, String personalIdNumber, int salary) {
+        this.name = name;
+        this.personalIdNumber = personalIdNumber;
+        this.salary = salary;
+    }
 
     public Long getId() {
         return id;
@@ -47,20 +60,28 @@ public class Teacher implements Serializable {
         this.id = id;
     }
 
-    public boolean isLicensed() {
-        return licensed;
+    public String getName() {
+        return name;
     }
 
-    public void setLicensed(boolean licensed) {
-        this.licensed = licensed;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Person getPerson() {
-        return person;
+    public String getPersonalIdNumber() {
+        return personalIdNumber;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setPersonalIdNumber(String personalIdNumber) {
+        this.personalIdNumber = personalIdNumber;
+    }
+
+    public int getSalary() {
+        return salary;
+    }
+
+    public void setSalary(int salary) {
+        this.salary = salary;
     }
 
     public List<Course> getCourses() {
@@ -82,6 +103,11 @@ public class Teacher implements Serializable {
     public void removeCourse(Course course) {
         getCourses().remove(course);
         course.setTeacher(null);
+    }
+
+    @Override
+    public String toString() {
+        return "Teacher{" + "id=" + id + ", name=" + name + ", personalIdNumber=" + personalIdNumber + ", salary=" + salary + ", courses=" + courses + '}';
     }
 
 }

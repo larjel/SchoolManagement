@@ -1,29 +1,36 @@
 package database.domain;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 /**
  * @author Lars Jelleryd
  */
 @Entity
-public class Education implements Serializable {
+@NamedQueries({
+    @NamedQuery(name = "Education.findAll", query = "SELECT e FROM Education e")
+    , @NamedQuery(name = "Education.findById", query = "SELECT e FROM Education e WHERE e.id = :id")
+    , @NamedQuery(name = "Education.findByName", query = "SELECT e FROM Education e WHERE e.name = :name")})
+public class Education {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Basic
+    @Column(unique = true, nullable = false)
     private String name;
 
     @OneToMany(mappedBy = "education", fetch = FetchType.LAZY)
@@ -31,6 +38,13 @@ public class Education implements Serializable {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<Course> courses;
+
+    public Education() {
+    }
+
+    public Education(String name) {
+        this.name = name;
+    }
 
     public Long getId() {
         return id;
