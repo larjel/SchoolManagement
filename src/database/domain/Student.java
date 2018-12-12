@@ -40,10 +40,20 @@ public class Student {
     public Student() {
     }
 
+    public Student(String name, String personalIdNumber) {
+        this.name = name;
+        this.personalIdNumber = personalIdNumber;
+    }
+
     public Student(String name, String personalIdNumber, Education education) {
         this.name = name;
         this.personalIdNumber = personalIdNumber;
         this.education = education;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" + "id=" + id + ", name=" + name + ", personalIdNumber=" + personalIdNumber + ", education=" + education.getName() + '}';
     }
 
     public Long getId() {

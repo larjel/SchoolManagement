@@ -22,7 +22,7 @@ import javax.persistence.NamedQuery;
     @NamedQuery(name = "Course.findAll", query = "SELECT c FROM Course c")
     , @NamedQuery(name = "Course.findById", query = "SELECT c FROM Course c WHERE c.id = :id")
     , @NamedQuery(name = "Course.findByName", query = "SELECT c FROM Course c WHERE c.name = :name")
-    , @NamedQuery(name = "Course.findByPoints", query = "SELECT t FROM Course t WHERE t.points = :points")})
+    , @NamedQuery(name = "Course.findByPoints", query = "SELECT c FROM Course c WHERE c.points = :points")})
 public class Course {
 
     @Id
@@ -55,6 +55,12 @@ public class Course {
         this.name = name;
         this.points = points;
         this.teacher = teacher;
+    }
+
+    @Override
+    public String toString() {
+        // Note: Do not simply include 'educations' here since it would cause an infinite loop
+        return "Course{" + "id=" + id + ", name=" + name + ", points=" + points + ", teacher=" + teacher.getName() + '}';
     }
 
     public Long getId() {

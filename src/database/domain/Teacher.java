@@ -52,6 +52,11 @@ public class Teacher {
         this.salary = salary;
     }
 
+    @Override
+    public String toString() {
+        return "Teacher{" + "id=" + id + ", name=" + name + ", personalIdNumber=" + personalIdNumber + ", salary=" + salary + ", courses=" + courses + '}';
+    }
+
     public Long getId() {
         return id;
     }
@@ -103,11 +108,6 @@ public class Teacher {
     public void removeCourse(Course course) {
         getCourses().remove(course);
         course.setTeacher(null);
-    }
-
-    @Override
-    public String toString() {
-        return "Teacher{" + "id=" + id + ", name=" + name + ", personalIdNumber=" + personalIdNumber + ", salary=" + salary + ", courses=" + courses + '}';
     }
 
 }
