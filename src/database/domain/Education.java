@@ -1,7 +1,9 @@
 package database.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -23,7 +25,7 @@ import javax.persistence.OneToMany;
     @NamedQuery(name = "Education.findAll", query = "SELECT e FROM Education e")
     , @NamedQuery(name = "Education.findById", query = "SELECT e FROM Education e WHERE e.id = :id")
     , @NamedQuery(name = "Education.findByName", query = "SELECT e FROM Education e WHERE e.name = :name")})
-public class Education {
+public class Education implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -49,6 +51,31 @@ public class Education {
     @Override
     public String toString() {
         return "Education{" + "id=" + id + ", name=" + name + ", students=" + students + ", courses=" + courses + '}';
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 79 * hash + Objects.hashCode(this.name);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Education other = (Education) obj;
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        return true;
     }
 
     public Long getId() {
