@@ -56,7 +56,7 @@ public class Education implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 79 * hash + Objects.hashCode(this.name);
+        hash = 79 * hash + Objects.hashCode(this.name.toUpperCase());
         return hash;
     }
 
@@ -72,10 +72,7 @@ public class Education implements Serializable {
             return false;
         }
         final Education other = (Education) obj;
-        if (!Objects.equals(this.name, other.name)) {
-            return false;
-        }
-        return true;
+        return this.name.equalsIgnoreCase(other.name);
     }
 
     public Long getId() {
