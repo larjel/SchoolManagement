@@ -17,6 +17,7 @@ public enum CourseMenu implements MenuInterface {
     OPT_ADD_COURSE(2, "Add course"),
     OPT_UPDATE_COURSE(3, "Update course"),
     OPT_DELETE_COURSE(4, "Delete course"),
+    OPT_SET_COURSE_TEACHER(5, "Set course teacher"),
     OPT_EXIT(0, "Back to main menu");
 
     private final int numeric;
@@ -61,6 +62,9 @@ public enum CourseMenu implements MenuInterface {
                     break;
                 case OPT_ADD_COURSE:
                     addCourse();
+                    break;
+                case OPT_SET_COURSE_TEACHER:
+                    setCourseTeacher();
                     break;
                 case OPT_INVALID:
                 default:
@@ -120,6 +124,19 @@ public enum CourseMenu implements MenuInterface {
         CourseJpaController.addCourse(new Course(name, points));
 
         System.out.println(">>> Course added successfully!");
+    }
+
+    //--------------------------------------------------------------
+    private static void setCourseTeacher() throws SystemInputAbortedException {
+        System.out.print("Teacher ID: ");
+        int teacherId = SystemInput.getIntAbortOnEmpty();
+
+        System.out.print("Course ID: ");
+        int courseId = SystemInput.getIntAbortOnEmpty();
+
+        CourseJpaController.setCourseTeacher(courseId, teacherId);
+
+        System.out.println(">>> Course teacher set successfully!");
     }
 
 }
