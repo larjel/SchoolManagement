@@ -1,6 +1,7 @@
 package database.controller;
 
 import database.MyEntityManager;
+import database.domain.Education;
 import database.domain.Student;
 import java.util.List;
 import javax.persistence.*;
@@ -60,6 +61,26 @@ public class StudentJpaController {
         try {
             tx.begin();
             em.remove(student);
+            tx.commit();
+        } catch (RuntimeException e) {
+            MyEntityManager.rollback(tx);
+            throw e;
+        }
+    }
+
+    public static void setStudentEducation(int studentId, long educationId) {
+        Student student = findStudentById(studentId);
+        Education education = EducationJpaController.findEducationById(educationId);
+
+        if (education.equals(student.getEducation())) {
+            throw new RuntimeException("Student already registered on education");
+        }
+
+        final EntityManager em = MyEntityManager.get();
+        final EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            student.setEducation(education);
             tx.commit();
         } catch (RuntimeException e) {
             MyEntityManager.rollback(tx);
