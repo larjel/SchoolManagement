@@ -78,10 +78,7 @@ public class Teacher implements Serializable {
             return false;
         }
         final Teacher other = (Teacher) obj;
-        if (!Objects.equals(this.personalIdNumber, other.personalIdNumber)) {
-            return false;
-        }
-        return true;
+        return this.personalIdNumber.equals(other.personalIdNumber);
     }
 
     public Long getId() {
