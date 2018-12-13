@@ -9,14 +9,30 @@ public class StudentJpaController {
 
     private static boolean studentExists(Student student) {
         try {
-            MyEntityManager.get()
-                    .createNamedQuery("Student.findByPersonalIdNumber", Student.class)
-                    .setParameter("personalIdNumber", student.getPersonalIdNumber())
-                    .getSingleResult();
+            findStudentByPersonalIdNumber(student.getPersonalIdNumber());
             return true;
         } catch (NoResultException e) {
             return false;
         }
+    }
+
+    public static Student findStudentByPersonalIdNumber(String personalIdNumber) {
+        try {
+            return MyEntityManager.get()
+                    .createNamedQuery("Student.findByPersonalIdNumber", Student.class)
+                    .setParameter("personalIdNumber", personalIdNumber)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            throw new NoResultException("No student with personal ID number " + personalIdNumber + " exists!");
+        }
+    }
+
+    public static Student findStudentById(long id) {
+        Student student = MyEntityManager.get().find(Student.class, id);
+        if (student == null) {
+            throw new NoResultException("No student with ID " + id + " exists!");
+        }
+        return student;
     }
 
     public static void addStudent(Student student) {
@@ -29,6 +45,21 @@ public class StudentJpaController {
         try {
             tx.begin();
             em.persist(student);
+            tx.commit();
+        } catch (RuntimeException e) {
+            MyEntityManager.rollback(tx);
+            throw e;
+        }
+    }
+
+    public static void deleteStudent(long id) {
+        Student student = findStudentById(id);
+
+        final EntityManager em = MyEntityManager.get();
+        final EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            em.remove(student);
             tx.commit();
         } catch (RuntimeException e) {
             MyEntityManager.rollback(tx);

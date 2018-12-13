@@ -104,7 +104,12 @@ public enum StudentMenu implements MenuInterface {
 
     //--------------------------------------------------------------
     private static void deleteStudent() throws SystemInputAbortedException {
-        System.out.println("NOT IMPLEMENTED!");
+        System.out.print("ID of student to remove: ");
+        int id = SystemInput.getIntAbortOnEmpty();
+
+        StudentJpaController.deleteStudent(id);
+
+        System.out.println(">>> Student successfully deleted!");
     }
 
     //--------------------------------------------------------------

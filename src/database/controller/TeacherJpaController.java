@@ -57,10 +57,13 @@ public class TeacherJpaController {
     public static void deleteTeacher(long id) {
         Teacher teacher = findTeacherById(id);
 
+        // Remove teacher from ALL courses first! Otherwise, there will be a
+        // SQLIntegrityConstraintViolationException due to foreign key constraint failure
+        CourseJpaController.deleteTeacherFromCourses(id);
+
+        // Delete teacher
         final EntityManager em = MyEntityManager.get();
         final EntityTransaction tx = em.getTransaction();
-
-        //TODO: Remove teacher from ALL courses first!
         try {
             tx.begin();
             em.remove(teacher);

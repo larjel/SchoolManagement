@@ -1,6 +1,7 @@
 package menus;
 
 import database.controller.EducationJpaController;
+import database.domain.Course;
 import database.domain.Education;
 import java.util.List;
 import userio.DisplayInfo;
@@ -14,9 +15,12 @@ import userio.SystemInputAbortedException;
 public enum EducationMenu implements MenuInterface {
     OPT_INVALID(-1, "Invalid"), // First enum is required to be 'invalid'
     OPT_LIST_EDUCATIONS(1, "List educations"),
-    OPT_ADD_EDUCATION(2, "Add education"),
-    OPT_UPDATE_EDUCATION(3, "Update education"),
-    OPT_DELETE_EDUCATION(4, "Delete education"),
+    OPT_LIST_COURSES_IN_EDUCATION(2, "List courses in education"),
+    OPT_ADD_EDUCATION(3, "Add education"),
+    OPT_UPDATE_EDUCATION(4, "Update education"),
+    OPT_DELETE_EDUCATION(5, "Delete education"),
+    OPT_ADD_COURSE_TO_EDUCATION(6, "Add course to education"),
+    OPT_ADD_STUDENT_TO_EDUCATION(7, "Add student to education"),
     OPT_EXIT(0, "Back to main menu");
 
     private final int numeric;
@@ -53,6 +57,9 @@ public enum EducationMenu implements MenuInterface {
                 case OPT_LIST_EDUCATIONS:
                     listEducations();
                     break;
+                case OPT_LIST_COURSES_IN_EDUCATION:
+                    listCoursesInEducation();
+                    break;
                 case OPT_UPDATE_EDUCATION:
                     updateEducation();
                     break;
@@ -62,6 +69,12 @@ public enum EducationMenu implements MenuInterface {
                 case OPT_ADD_EDUCATION:
                     addEducation();
                     break;
+                case OPT_ADD_COURSE_TO_EDUCATION:
+                    addCourseToEducation();
+                    break;
+                case OPT_ADD_STUDENT_TO_EDUCATION:
+                    addStudentToEducation();
+                    break;
                 case OPT_INVALID:
                 default:
                     System.out.println(">>> Invalid menu choice! Try again.");
@@ -70,7 +83,7 @@ public enum EducationMenu implements MenuInterface {
 
         } catch (SystemInputAbortedException e) {
             System.out.println(">>> Aborted due to empty input!");
-        } catch (Exception e) {
+        } catch (Throwable e) {
             System.out.println(">>> Operation failed: " + e.getMessage());
         }
 
@@ -114,6 +127,44 @@ public enum EducationMenu implements MenuInterface {
         EducationJpaController.addEducation(new Education(name));
 
         System.out.println(">>> Education added successfully!");
+    }
+
+    //--------------------------------------------------------------
+    private static void addCourseToEducation() throws SystemInputAbortedException {
+        System.out.print("Education ID: ");
+        int educationId = SystemInput.getIntAbortOnEmpty();
+
+        System.out.print("Course ID: ");
+        int courseId = SystemInput.getIntAbortOnEmpty();
+
+        EducationJpaController.addCourseToEducation(educationId, courseId);
+
+        System.out.println(">>> Course added successfully to education!");
+    }
+
+    //--------------------------------------------------------------
+    private static void addStudentToEducation() {
+        System.out.println("NOT IMPLEMENTED!");
+    }
+
+    //--------------------------------------------------------------
+    private static void listCoursesInEducation() throws SystemInputAbortedException {
+        System.out.print("Education ID: ");
+        int id = SystemInput.getIntAbortOnEmpty();
+
+        List<Course> courses = EducationJpaController.getAllCoursesInEducation(id);
+        if (courses.isEmpty()) {
+            System.out.println("No courses in education");
+        } else {
+            DisplayInfo di = new DisplayInfo("ID   ", "COURSE           ", "POINTS  ");
+            di.printHeader();
+            for (Course course : courses) {
+                String courseId = Long.toString(course.getId());
+                String name = course.getName();
+                String points = Integer.toString(course.getPoints());
+                di.printRow(courseId, name, points);
+            }
+        }
     }
 
 }

@@ -1,6 +1,7 @@
 package database.controller;
 
 import database.MyEntityManager;
+import database.domain.Course;
 import database.domain.Education;
 import java.util.List;
 import javax.persistence.*;
@@ -42,6 +43,47 @@ public class EducationJpaController {
             MyEntityManager.rollback(tx);
             throw e;
         }
+    }
+
+    public static void addCourseToEducation(long educationId, long courseId) {
+        Education education = findEducationById(educationId);
+        Course course = CourseJpaController.findCourseById(courseId);
+
+        // Check that course is not already in education
+        if (education.getCourses() != null && education.getCourses().contains(course)) {
+            throw new RuntimeException("Course already in education");
+        }
+
+        final EntityManager em = MyEntityManager.get();
+        final EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            education.addCourse(course);
+            tx.commit();
+        } catch (RuntimeException e) {
+            MyEntityManager.rollback(tx);
+            throw e;
+        }
+    }
+
+    public static void deleteEducation(long id) {
+        Education education = findEducationById(id);
+
+        final EntityManager em = MyEntityManager.get();
+        final EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            em.remove(education);
+            tx.commit();
+        } catch (RuntimeException e) {
+            MyEntityManager.rollback(tx);
+            throw e;
+        }
+    }
+
+    public static List<Course> getAllCoursesInEducation(long id) {
+        Education education = findEducationById(id);
+        return education.getCourses();
     }
 
     public static List<Education> getAllEducations() {

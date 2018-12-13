@@ -1,7 +1,6 @@
 package menus;
 
 import userio.SystemInput;
-import userio.SystemInputAbortedException;
 
 /**
  *

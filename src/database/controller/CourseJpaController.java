@@ -28,6 +28,12 @@ public class CourseJpaController {
         }
     }
 
+    public static List<Course> findCoursesByTeacherID(long teacherId) {
+        return MyEntityManager.get()
+                .createNamedQuery("Course.findByTeacherID", Course.class)
+                .setParameter("id", teacherId).getResultList();
+    }
+
     public static Course findCourseById(long id) {
         Course course = MyEntityManager.get().find(Course.class, id);
         if (course == null) {
@@ -57,17 +63,34 @@ public class CourseJpaController {
         Course course = findCourseById(courseId);
         Teacher teacher = TeacherJpaController.findTeacherById(teacherId);
 
-        course.setTeacher(teacher);
-
         final EntityManager em = MyEntityManager.get();
         final EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
-            em.merge(course);
+            course.setTeacher(teacher);
             tx.commit();
         } catch (RuntimeException e) {
             MyEntityManager.rollback(tx);
             throw e;
+        }
+    }
+
+    public static void deleteTeacherFromCourses(long teacherId) {
+        List<Course> courses = findCoursesByTeacherID(teacherId);
+
+        if (!courses.isEmpty()) {
+            final EntityManager em = MyEntityManager.get();
+            final EntityTransaction tx = em.getTransaction();
+            try {
+                tx.begin();
+                for (Course course : courses) {
+                    course.setTeacher(null);
+                }
+                tx.commit();
+            } catch (RuntimeException e) {
+                MyEntityManager.rollback(tx);
+                throw e;
+            }
         }
     }
 
