@@ -1,8 +1,6 @@
 package menus;
 
-import database.controller.EducationJpaController;
 import database.controller.StudentJpaController;
-import database.domain.Education;
 import database.domain.Student;
 import java.util.List;
 import userio.DisplayInfo;
@@ -17,8 +15,8 @@ public enum StudentMenu implements MenuInterface {
     OPT_INVALID(-1, "Invalid"), // First enum is required to be 'invalid'
     OPT_LIST_STUDENTS(1, "List students"),
     OPT_ADD_STUDENT(2, "Add student"),
-    OPT_UPDATE_STUDENT(3, "Update student"),
-    OPT_DELETE_STUDENT(4, "Delete student"),
+    OPT_DELETE_STUDENT(3, "Delete student"),
+    OPT_REGISTER_STUDENT_TO_EDUCATION(4, "Register student to education"),
     OPT_EXIT(0, "Back to main menu");
 
     private final int numeric;
@@ -55,14 +53,14 @@ public enum StudentMenu implements MenuInterface {
                 case OPT_LIST_STUDENTS:
                     listStudents();
                     break;
-                case OPT_UPDATE_STUDENT:
-                    updateStudent();
-                    break;
                 case OPT_DELETE_STUDENT:
                     deleteStudent();
                     break;
                 case OPT_ADD_STUDENT:
                     addStudent();
+                    break;
+                case OPT_REGISTER_STUDENT_TO_EDUCATION:
+                    registerStudentToEducation();
                     break;
                 case OPT_INVALID:
                 default:
@@ -88,17 +86,19 @@ public enum StudentMenu implements MenuInterface {
         if (students.isEmpty()) {
             System.out.println("No students in database");
         } else {
+            System.out.println("-------------------- STUDENTS --------------------");
             DisplayInfo di = new DisplayInfo("ID   ",
-                    "NAME                ", "PERS.ID#       ", "EDUCATION    ");
+                    "NAME              ", "PERS.ID#       ", "STUDYING          ");
             di.printHeader();
             for (Student student : students) {
                 String id = Long.toString(student.getId());
                 String name = student.getName();
                 String personalIdNumber = student.getPersonalIdNumber();
                 String education = (student.getEducation() == null)
-                        ? "<No Education>" : student.getEducation().getName();
+                        ? "<Not registered>" : student.getEducation().getName();
                 di.printRow(id, name, personalIdNumber, education);
             }
+            System.out.println("--------------------------------------------------");
         }
     }
 
@@ -113,11 +113,6 @@ public enum StudentMenu implements MenuInterface {
     }
 
     //--------------------------------------------------------------
-    private static void updateStudent() throws SystemInputAbortedException {
-        System.out.println("NOT IMPLEMENTED!");
-    }
-
-    //--------------------------------------------------------------
     private static void addStudent() throws SystemInputAbortedException {
         System.out.print("Name: ");
         String name = SystemInput.getStringAbortOnEmpty();
@@ -125,19 +120,25 @@ public enum StudentMenu implements MenuInterface {
         System.out.print("Personal ID number: ");
         String idNum = SystemInput.getStringAbortOnEmpty();
 
-        List<Education> educations = EducationJpaController.getAllEducations();
-        if (educations.isEmpty()) {
-            StudentJpaController.addStudent(new Student(name, idNum));
-        } else {
-            System.out.println("The following educations are available: ");
-            educations.forEach(e -> System.out.println(e.getId() + ": " + e.getName()));
-            System.out.print("Please enter the number of the desired education: ");
-            int educationId = SystemInput.getIntAbortOnEmpty();
-            Education education = EducationJpaController.findEducationById(educationId);
-            StudentJpaController.addStudent(new Student(name, idNum, education));
-        }
+        StudentJpaController.addStudent(new Student(name, idNum));
 
         System.out.println(">>> Student added successfully!");
+    }
+
+    //--------------------------------------------------------------
+    private static void registerStudentToEducation() throws SystemInputAbortedException {
+        System.out.print("Student ID: ");
+        int studentId = SystemInput.getIntAbortOnEmpty();
+
+        System.out.println("Available educations->");
+        EducationMenu.listEducations();
+
+        System.out.print("Enter ID of education (or enter to abort): ");
+        int educationId = SystemInput.getIntAbortOnEmpty();
+
+        StudentJpaController.setStudentEducation(studentId, educationId);
+
+        System.out.println(">>> Student registered to education successfully!");
     }
 
 }

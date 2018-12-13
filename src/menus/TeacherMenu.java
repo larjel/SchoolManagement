@@ -15,7 +15,7 @@ public enum TeacherMenu implements MenuInterface {
     OPT_INVALID(-1, "Invalid"), // First enum is required to be 'invalid'
     OPT_LIST_TEACHERS(1, "List teachers"),
     OPT_ADD_TEACHER(2, "Add teacher"),
-    OPT_UPDATE_TEACHER(3, "Update teacher"),
+    OPT_UPDATE_TEACHER_SALARY(3, "Update teacher salary"),
     OPT_DELETE_TEACHER(4, "Delete teacher"),
     OPT_EXIT(0, "Back to main menu");
 
@@ -53,8 +53,8 @@ public enum TeacherMenu implements MenuInterface {
                 case OPT_LIST_TEACHERS:
                     listTeachers();
                     break;
-                case OPT_UPDATE_TEACHER:
-                    updateTeacher();
+                case OPT_UPDATE_TEACHER_SALARY:
+                    updateTeacherSalary();
                     break;
                 case OPT_DELETE_TEACHER:
                     deleteTeacher();
@@ -109,7 +109,7 @@ public enum TeacherMenu implements MenuInterface {
     }
 
     //--------------------------------------------------------------
-    private static void updateTeacher() throws SystemInputAbortedException {
+    private static void updateTeacherSalary() throws SystemInputAbortedException {
         System.out.println("NOT IMPLEMENTED!");
     }
 

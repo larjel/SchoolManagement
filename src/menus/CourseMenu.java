@@ -15,7 +15,7 @@ public enum CourseMenu implements MenuInterface {
     OPT_INVALID(-1, "Invalid"), // First enum is required to be 'invalid'
     OPT_LIST_COURSES(1, "List courses"),
     OPT_ADD_COURSE(2, "Add course"),
-    OPT_UPDATE_COURSE(3, "Update course"),
+    OPT_UPDATE_COURSE_POINTS(3, "Update course points"),
     OPT_DELETE_COURSE(4, "Delete course"),
     OPT_SET_COURSE_TEACHER(5, "Set course teacher"),
     OPT_EXIT(0, "Back to main menu");
@@ -54,8 +54,8 @@ public enum CourseMenu implements MenuInterface {
                 case OPT_LIST_COURSES:
                     listCourses();
                     break;
-                case OPT_UPDATE_COURSE:
-                    updateCourse();
+                case OPT_UPDATE_COURSE_POINTS:
+                    updateCoursePoints();
                     break;
                 case OPT_DELETE_COURSE:
                     deleteCourse();
@@ -85,11 +85,11 @@ public enum CourseMenu implements MenuInterface {
     }
 
     //--------------------------------------------------------------
-    private static void listCourses() {
-        List<Course> courses = CourseJpaController.getAllCourses();
+    public static void listCourses(List<Course> courses) {
         if (courses.isEmpty()) {
-            System.out.println("No courses in database");
+            System.out.println("No courses in available");
         } else {
+            System.out.println("---------------- COURSES ----------------");
             DisplayInfo di = new DisplayInfo("ID   ",
                     "NAME                ", "POINTS  ", "TEACHER           ");
             di.printHeader();
@@ -100,7 +100,14 @@ public enum CourseMenu implements MenuInterface {
                 String teacher = (course.getTeacher() == null) ? "<Unassigned>" : course.getTeacher().getName();
                 di.printRow(id, name, points, teacher);
             }
+            System.out.println("-----------------------------------------");
         }
+    }
+
+    //--------------------------------------------------------------
+    public static void listCourses() {
+        List<Course> courses = CourseJpaController.getAllCourses();
+        listCourses(courses);
     }
 
     //--------------------------------------------------------------
@@ -109,7 +116,7 @@ public enum CourseMenu implements MenuInterface {
     }
 
     //--------------------------------------------------------------
-    private static void updateCourse() throws SystemInputAbortedException {
+    private static void updateCoursePoints() throws SystemInputAbortedException {
         System.out.println("NOT IMPLEMENTED!");
     }
 

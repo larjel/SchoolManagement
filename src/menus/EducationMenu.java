@@ -17,10 +17,8 @@ public enum EducationMenu implements MenuInterface {
     OPT_LIST_EDUCATIONS(1, "List educations"),
     OPT_LIST_COURSES_IN_EDUCATION(2, "List courses in education"),
     OPT_ADD_EDUCATION(3, "Add education"),
-    OPT_UPDATE_EDUCATION(4, "Update education"),
-    OPT_DELETE_EDUCATION(5, "Delete education"),
-    OPT_ADD_COURSE_TO_EDUCATION(6, "Add course to education"),
-    OPT_ADD_STUDENT_TO_EDUCATION(7, "Add student to education"),
+    OPT_DELETE_EDUCATION(4, "Delete education"),
+    OPT_ADD_COURSE_TO_EDUCATION(5, "Add course to education"),
     OPT_EXIT(0, "Back to main menu");
 
     private final int numeric;
@@ -60,9 +58,6 @@ public enum EducationMenu implements MenuInterface {
                 case OPT_LIST_COURSES_IN_EDUCATION:
                     listCoursesInEducation();
                     break;
-                case OPT_UPDATE_EDUCATION:
-                    updateEducation();
-                    break;
                 case OPT_DELETE_EDUCATION:
                     deleteEducation();
                     break;
@@ -71,9 +66,6 @@ public enum EducationMenu implements MenuInterface {
                     break;
                 case OPT_ADD_COURSE_TO_EDUCATION:
                     addCourseToEducation();
-                    break;
-                case OPT_ADD_STUDENT_TO_EDUCATION:
-                    addStudentToEducation();
                     break;
                 case OPT_INVALID:
                 default:
@@ -94,29 +86,31 @@ public enum EducationMenu implements MenuInterface {
     }
 
     //--------------------------------------------------------------
-    private static void listEducations() {
+    public static void listEducations() {
         List<Education> educations = EducationJpaController.getAllEducations();
         if (educations.isEmpty()) {
             System.out.println("No educations in database");
         } else {
-            DisplayInfo di = new DisplayInfo("ID   ", "EDUCATION            ");
+            System.out.println("---------------- EDUCATIONS ----------------");
+            DisplayInfo di = new DisplayInfo("ID   ", "NAME            ");
             di.printHeader();
             for (Education education : educations) {
                 String id = Long.toString(education.getId());
                 String name = education.getName();
                 di.printRow(id, name);
             }
+            System.out.println("--------------------------------------------");
         }
     }
 
     //--------------------------------------------------------------
     private static void deleteEducation() throws SystemInputAbortedException {
-        System.out.println("NOT IMPLEMENTED!");
-    }
+        System.out.print("Education ID: ");
+        int educationId = SystemInput.getIntAbortOnEmpty();
 
-    //--------------------------------------------------------------
-    private static void updateEducation() throws SystemInputAbortedException {
-        System.out.println("NOT IMPLEMENTED!");
+        EducationJpaController.deleteEducation(educationId);
+
+        System.out.println(">>> Education deleted successfully!");
     }
 
     //--------------------------------------------------------------
@@ -134,17 +128,18 @@ public enum EducationMenu implements MenuInterface {
         System.out.print("Education ID: ");
         int educationId = SystemInput.getIntAbortOnEmpty();
 
-        System.out.print("Course ID: ");
-        int courseId = SystemInput.getIntAbortOnEmpty();
+        int courseId;
+        do {
+            System.out.print("Course ID (or enter -1 to list courses): ");
+            courseId = SystemInput.getIntAbortOnEmpty();
+            if (courseId == -1) {
+                CourseMenu.listCourses();
+            }
+        } while (courseId == -1);
 
         EducationJpaController.addCourseToEducation(educationId, courseId);
 
         System.out.println(">>> Course added successfully to education!");
-    }
-
-    //--------------------------------------------------------------
-    private static void addStudentToEducation() {
-        System.out.println("NOT IMPLEMENTED!");
     }
 
     //--------------------------------------------------------------
@@ -153,18 +148,7 @@ public enum EducationMenu implements MenuInterface {
         int id = SystemInput.getIntAbortOnEmpty();
 
         List<Course> courses = EducationJpaController.getAllCoursesInEducation(id);
-        if (courses.isEmpty()) {
-            System.out.println("No courses in education");
-        } else {
-            DisplayInfo di = new DisplayInfo("ID   ", "COURSE           ", "POINTS  ");
-            di.printHeader();
-            for (Course course : courses) {
-                String courseId = Long.toString(course.getId());
-                String name = course.getName();
-                String points = Integer.toString(course.getPoints());
-                di.printRow(courseId, name, points);
-            }
-        }
+        CourseMenu.listCourses(courses);
     }
 
 }
