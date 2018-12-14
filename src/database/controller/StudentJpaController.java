@@ -36,6 +36,13 @@ public class StudentJpaController {
         return student;
     }
 
+    private static List<Student> findStudentsByEducationID(long educationId) {
+        return MyEntityManager.get()
+                .createNamedQuery("Student.findByEducationId", Student.class)
+                .setParameter("educationId", educationId)
+                .getResultList();
+    }
+
     public static void addStudent(Student student) {
         if (studentExists(student)) {
             throw new RuntimeException("Student already exists");
@@ -65,6 +72,23 @@ public class StudentJpaController {
         } catch (RuntimeException e) {
             MyEntityManager.rollback(tx);
             throw e;
+        }
+    }
+
+    public static void deleteEducationFromStudents(long educationId) {
+        List<Student> students = findStudentsByEducationID(educationId);
+
+        if (!students.isEmpty()) {
+            final EntityManager em = MyEntityManager.get();
+            final EntityTransaction tx = em.getTransaction();
+            try {
+                tx.begin();
+                students.forEach(student -> student.setEducation(null));
+                tx.commit();
+            } catch (RuntimeException e) {
+                MyEntityManager.rollback(tx);
+                throw e;
+            }
         }
     }
 

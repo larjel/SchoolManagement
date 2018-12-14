@@ -1,10 +1,10 @@
 package database.controller;
 
-import javax.persistence.*;
 import database.MyEntityManager;
 import database.domain.Course;
 import database.domain.Teacher;
 import java.util.List;
+import javax.persistence.*;
 
 public class CourseJpaController {
 
@@ -31,7 +31,7 @@ public class CourseJpaController {
     public static List<Course> findCoursesByTeacherID(long teacherId) {
         return MyEntityManager.get()
                 .createNamedQuery("Course.findByTeacherID", Course.class)
-                .setParameter("id", teacherId).getResultList();
+                .setParameter("teacherId", teacherId).getResultList();
     }
 
     public static Course findCourseById(long id) {
@@ -83,14 +83,44 @@ public class CourseJpaController {
             final EntityTransaction tx = em.getTransaction();
             try {
                 tx.begin();
-                for (Course course : courses) {
-                    course.setTeacher(null);
-                }
+                courses.forEach(course -> course.setTeacher(null));
                 tx.commit();
             } catch (RuntimeException e) {
                 MyEntityManager.rollback(tx);
                 throw e;
             }
+        }
+    }
+
+    public static void updateCoursePoints(long id, int points) {
+        Course course = findCourseById(id);
+
+        if (course.getPoints() != points) {
+            final EntityManager em = MyEntityManager.get();
+            final EntityTransaction tx = em.getTransaction();
+            try {
+                tx.begin();
+                course.setPoints(points);
+                tx.commit();
+            } catch (RuntimeException e) {
+                MyEntityManager.rollback(tx);
+                throw e;
+            }
+        }
+    }
+
+    public static void deleteCourse(long id) {
+        Course course = findCourseById(id);
+
+        final EntityManager em = MyEntityManager.get();
+        final EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            em.remove(course);
+            tx.commit();
+        } catch (RuntimeException e) {
+            MyEntityManager.rollback(tx);
+            throw e;
         }
     }
 

@@ -24,7 +24,7 @@ import javax.persistence.NamedQuery;
     @NamedQuery(name = "Course.findAll", query = "SELECT c FROM Course c")
     , @NamedQuery(name = "Course.findById", query = "SELECT c FROM Course c WHERE c.id = :id")
     , @NamedQuery(name = "Course.findByName", query = "SELECT c FROM Course c WHERE c.name = :name")
-    , @NamedQuery(name = "Course.findByTeacherID", query = "SELECT c FROM Course c WHERE c.teacher.id = :id")
+    , @NamedQuery(name = "Course.findByTeacherID", query = "SELECT c FROM Course c WHERE c.teacher.id = :teacherId")
     , @NamedQuery(name = "Course.findByPoints", query = "SELECT c FROM Course c WHERE c.points = :points")})
 public class Course implements Serializable {
 

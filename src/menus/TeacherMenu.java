@@ -81,11 +81,12 @@ public enum TeacherMenu implements MenuInterface {
     }
 
     //--------------------------------------------------------------
-    private static void listTeachers() {
+    public static void listTeachers() {
         List<Teacher> teachers = TeacherJpaController.getAllTeachers();
         if (teachers.isEmpty()) {
-            System.out.println("No teachers in database");
+            System.out.println(">>> No teachers found");
         } else {
+            System.out.println("---------------- TEACHERS ----------------");
             DisplayInfo di = new DisplayInfo("ID   ",
                     "NAME                ", "PERS.ID#       ");
             di.printHeader();
@@ -95,6 +96,7 @@ public enum TeacherMenu implements MenuInterface {
                 String personalIdNumber = teacher.getPersonalIdNumber();
                 di.printRow(id, name, personalIdNumber);
             }
+            System.out.println("------------------------------------------");
         }
     }
 
@@ -110,7 +112,15 @@ public enum TeacherMenu implements MenuInterface {
 
     //--------------------------------------------------------------
     private static void updateTeacherSalary() throws SystemInputAbortedException {
-        System.out.println("NOT IMPLEMENTED!");
+        System.out.print("ID of teacher: ");
+        int id = SystemInput.getIntAbortOnEmpty();
+
+        System.out.print("New salary: ");
+        int salary = SystemInput.getIntAbortOnEmpty();
+
+        TeacherJpaController.updateTeacherSalary(id, salary);
+
+        System.out.println(">>> Teacher salary updated successfully!");
     }
 
     //--------------------------------------------------------------

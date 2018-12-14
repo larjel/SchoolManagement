@@ -3,6 +3,7 @@ package menus;
 import database.controller.EducationJpaController;
 import database.domain.Course;
 import database.domain.Education;
+import database.domain.Student;
 import java.util.List;
 import userio.DisplayInfo;
 import userio.SystemInput;
@@ -16,9 +17,10 @@ public enum EducationMenu implements MenuInterface {
     OPT_INVALID(-1, "Invalid"), // First enum is required to be 'invalid'
     OPT_LIST_EDUCATIONS(1, "List educations"),
     OPT_LIST_COURSES_IN_EDUCATION(2, "List courses in education"),
-    OPT_ADD_EDUCATION(3, "Add education"),
-    OPT_DELETE_EDUCATION(4, "Delete education"),
-    OPT_ADD_COURSE_TO_EDUCATION(5, "Add course to education"),
+    OPT_LIST_STUDENTS_IN_EDUCATION(3, "List students in education"),
+    OPT_ADD_EDUCATION(4, "Add education"),
+    OPT_DELETE_EDUCATION(5, "Delete education"),
+    OPT_ADD_COURSE_TO_EDUCATION(6, "Add course to education"),
     OPT_EXIT(0, "Back to main menu");
 
     private final int numeric;
@@ -58,6 +60,9 @@ public enum EducationMenu implements MenuInterface {
                 case OPT_LIST_COURSES_IN_EDUCATION:
                     listCoursesInEducation();
                     break;
+                case OPT_LIST_STUDENTS_IN_EDUCATION:
+                    listStudentsInEducation();
+                    break;
                 case OPT_DELETE_EDUCATION:
                     deleteEducation();
                     break;
@@ -89,7 +94,7 @@ public enum EducationMenu implements MenuInterface {
     public static void listEducations() {
         List<Education> educations = EducationJpaController.getAllEducations();
         if (educations.isEmpty()) {
-            System.out.println("No educations in database");
+            System.out.println(">>> No educations found");
         } else {
             System.out.println("---------------- EDUCATIONS ----------------");
             DisplayInfo di = new DisplayInfo("ID   ", "NAME            ");
@@ -128,14 +133,11 @@ public enum EducationMenu implements MenuInterface {
         System.out.print("Education ID: ");
         int educationId = SystemInput.getIntAbortOnEmpty();
 
-        int courseId;
-        do {
-            System.out.print("Course ID (or enter -1 to list courses): ");
-            courseId = SystemInput.getIntAbortOnEmpty();
-            if (courseId == -1) {
-                CourseMenu.listCourses();
-            }
-        } while (courseId == -1);
+        System.out.println("Available courses->");
+        CourseMenu.listCourses();
+
+        System.out.print("Course ID: ");
+        int courseId = SystemInput.getIntAbortOnEmpty();
 
         EducationJpaController.addCourseToEducation(educationId, courseId);
 
@@ -149,6 +151,15 @@ public enum EducationMenu implements MenuInterface {
 
         List<Course> courses = EducationJpaController.getAllCoursesInEducation(id);
         CourseMenu.listCourses(courses);
+    }
+
+    //--------------------------------------------------------------
+    private static void listStudentsInEducation() throws SystemInputAbortedException {
+        System.out.print("Education ID: ");
+        int id = SystemInput.getIntAbortOnEmpty();
+
+        List<Student> students = EducationJpaController.getAllStudentsInEducation(id);
+        StudentMenu.listStudents(students);
     }
 
 }

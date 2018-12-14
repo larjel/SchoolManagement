@@ -1,11 +1,10 @@
 package database.controller;
 
-import javax.persistence.*;
 import database.MyEntityManager;
 import database.domain.Course;
 import database.domain.Teacher;
-import java.util.Collections;
 import java.util.List;
+import javax.persistence.*;
 
 public class TeacherJpaController {
 
@@ -74,9 +73,26 @@ public class TeacherJpaController {
         }
     }
 
+    public static void updateTeacherSalary(long id, int salary) {
+        Teacher teacher = findTeacherById(id);
+
+        if (teacher.getSalary() != salary) {
+            final EntityManager em = MyEntityManager.get();
+            final EntityTransaction tx = em.getTransaction();
+            try {
+                tx.begin();
+                teacher.setSalary(salary);
+                tx.commit();
+            } catch (RuntimeException e) {
+                MyEntityManager.rollback(tx);
+                throw e;
+            }
+        }
+    }
+
     public static List<Course> getTeacherCourses(long id) {
         Teacher teacher = findTeacherById(id);
-        return Collections.unmodifiableList(teacher.getCourses());
+        return teacher.getCourses();
     }
 
     public static List<Teacher> getAllTeachers() {

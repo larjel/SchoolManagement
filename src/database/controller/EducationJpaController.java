@@ -3,6 +3,7 @@ package database.controller;
 import database.MyEntityManager;
 import database.domain.Course;
 import database.domain.Education;
+import database.domain.Student;
 import java.util.List;
 import javax.persistence.*;
 
@@ -69,6 +70,9 @@ public class EducationJpaController {
     public static void deleteEducation(long id) {
         Education education = findEducationById(id);
 
+        // Remove education from all students first (required)
+        StudentJpaController.deleteEducationFromStudents(id);
+
         final EntityManager em = MyEntityManager.get();
         final EntityTransaction tx = em.getTransaction();
         try {
@@ -83,7 +87,15 @@ public class EducationJpaController {
 
     public static List<Course> getAllCoursesInEducation(long id) {
         Education education = findEducationById(id);
+        // Refresh the entity in case any courses has been deleted (via the
+        // course menu), otherwise the returned list is not updated
+        MyEntityManager.get().refresh(education);
         return education.getCourses();
+    }
+
+    public static List<Student> getAllStudentsInEducation(long id) {
+        Education education = findEducationById(id);
+        return education.getStudents();
     }
 
     public static List<Education> getAllEducations() {

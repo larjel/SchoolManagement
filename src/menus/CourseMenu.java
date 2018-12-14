@@ -87,7 +87,7 @@ public enum CourseMenu implements MenuInterface {
     //--------------------------------------------------------------
     public static void listCourses(List<Course> courses) {
         if (courses.isEmpty()) {
-            System.out.println("No courses in available");
+            System.out.println(">>> No courses found");
         } else {
             System.out.println("---------------- COURSES ----------------");
             DisplayInfo di = new DisplayInfo("ID   ",
@@ -112,12 +112,25 @@ public enum CourseMenu implements MenuInterface {
 
     //--------------------------------------------------------------
     private static void deleteCourse() throws SystemInputAbortedException {
-        System.out.println("NOT IMPLEMENTED!");
+        System.out.print("Course ID: ");
+        int courseId = SystemInput.getIntAbortOnEmpty();
+
+        CourseJpaController.deleteCourse(courseId);
+
+        System.out.println(">>> Course successfully deleted!");
     }
 
     //--------------------------------------------------------------
     private static void updateCoursePoints() throws SystemInputAbortedException {
-        System.out.println("NOT IMPLEMENTED!");
+        System.out.print("Course ID: ");
+        int courseId = SystemInput.getIntAbortOnEmpty();
+
+        System.out.print("New course points: ");
+        int points = SystemInput.getIntAbortOnEmpty();
+
+        CourseJpaController.updateCoursePoints(courseId, points);
+
+        System.out.println(">>> Course points successfully updated!");
     }
 
     //--------------------------------------------------------------
@@ -135,11 +148,14 @@ public enum CourseMenu implements MenuInterface {
 
     //--------------------------------------------------------------
     private static void setCourseTeacher() throws SystemInputAbortedException {
-        System.out.print("Teacher ID: ");
-        int teacherId = SystemInput.getIntAbortOnEmpty();
-
         System.out.print("Course ID: ");
         int courseId = SystemInput.getIntAbortOnEmpty();
+
+        System.out.println("Available teachers->");
+        TeacherMenu.listTeachers();
+
+        System.out.print("Teacher ID: ");
+        int teacherId = SystemInput.getIntAbortOnEmpty();
 
         CourseJpaController.setCourseTeacher(courseId, teacherId);
 

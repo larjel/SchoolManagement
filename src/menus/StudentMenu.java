@@ -81,10 +81,9 @@ public enum StudentMenu implements MenuInterface {
     }
 
     //--------------------------------------------------------------
-    private static void listStudents() {
-        List<Student> students = StudentJpaController.getAllStudents();
+    public static void listStudents(List<Student> students) {
         if (students.isEmpty()) {
-            System.out.println("No students in database");
+            System.out.println(">>> No students found");
         } else {
             System.out.println("-------------------- STUDENTS --------------------");
             DisplayInfo di = new DisplayInfo("ID   ",
@@ -100,6 +99,12 @@ public enum StudentMenu implements MenuInterface {
             }
             System.out.println("--------------------------------------------------");
         }
+    }
+
+    //--------------------------------------------------------------
+    private static void listStudents() {
+        List<Student> students = StudentJpaController.getAllStudents();
+        listStudents(students);
     }
 
     //--------------------------------------------------------------

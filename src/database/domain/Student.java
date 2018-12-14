@@ -21,6 +21,7 @@ import javax.persistence.NamedQuery;
     @NamedQuery(name = "Student.findAll", query = "SELECT s FROM Student s")
     , @NamedQuery(name = "Student.findById", query = "SELECT s FROM Student s WHERE s.id = :id")
     , @NamedQuery(name = "Student.findByName", query = "SELECT s FROM Student s WHERE s.name = :name")
+    , @NamedQuery(name = "Student.findByEducationId", query = "SELECT s FROM Student s WHERE s.education.id = :educationId")
     , @NamedQuery(name = "Student.findByPersonalIdNumber", query = "SELECT s FROM Student s WHERE s.personalIdNumber = :personalIdNumber")})
 public class Student implements Serializable {
 
