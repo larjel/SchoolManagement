@@ -9,6 +9,7 @@ import javax.persistence.*;
 
 public class EducationJpaController {
 
+    //------------------------------------------------------------------------
     private static boolean educationExists(Education education) {
         try {
             MyEntityManager.get()
@@ -21,6 +22,7 @@ public class EducationJpaController {
         }
     }
 
+    //------------------------------------------------------------------------
     public static Education findEducationById(long id) {
         Education education = MyEntityManager.get().find(Education.class, id);
         if (education == null) {
@@ -29,23 +31,16 @@ public class EducationJpaController {
         return education;
     }
 
+    //------------------------------------------------------------------------
     public static void addEducation(Education education) {
         if (educationExists(education)) {
             throw new RuntimeException("Education already exists");
         }
 
-        final EntityManager em = MyEntityManager.get();
-        final EntityTransaction tx = em.getTransaction();
-        try {
-            tx.begin();
-            em.persist(education);
-            tx.commit();
-        } catch (RuntimeException e) {
-            MyEntityManager.rollback(tx);
-            throw e;
-        }
+        MyEntityManager.executeTransaction(em -> em.persist(education));
     }
 
+    //------------------------------------------------------------------------
     public static void addCourseToEducation(long educationId, long courseId) {
         Education education = findEducationById(educationId);
         Course course = CourseJpaController.findCourseById(courseId);
@@ -55,36 +50,21 @@ public class EducationJpaController {
             throw new RuntimeException("Course already in education");
         }
 
-        final EntityManager em = MyEntityManager.get();
-        final EntityTransaction tx = em.getTransaction();
-        try {
-            tx.begin();
-            education.addCourse(course);
-            tx.commit();
-        } catch (RuntimeException e) {
-            MyEntityManager.rollback(tx);
-            throw e;
-        }
+        education.addCourse(course);
+        MyEntityManager.executeTransaction(em -> em.merge(education));
     }
 
+    //------------------------------------------------------------------------
     public static void deleteEducation(long id) {
         Education education = findEducationById(id);
 
         // Remove education from all students first (required)
         StudentJpaController.deleteEducationFromStudents(id);
 
-        final EntityManager em = MyEntityManager.get();
-        final EntityTransaction tx = em.getTransaction();
-        try {
-            tx.begin();
-            em.remove(education);
-            tx.commit();
-        } catch (RuntimeException e) {
-            MyEntityManager.rollback(tx);
-            throw e;
-        }
+        MyEntityManager.executeTransaction(em -> em.remove(education));
     }
 
+    //------------------------------------------------------------------------
     public static List<Course> getAllCoursesInEducation(long id) {
         Education education = findEducationById(id);
         // Refresh the entity in case a course has been deleted/changed
@@ -93,6 +73,7 @@ public class EducationJpaController {
         return education.getCourses();
     }
 
+    //------------------------------------------------------------------------
     public static List<Student> getAllStudentsInEducation(long id) {
         Education education = findEducationById(id);
         // Refresh the entity in case a student has been deleted/changed
@@ -101,6 +82,7 @@ public class EducationJpaController {
         return education.getStudents();
     }
 
+    //------------------------------------------------------------------------
     public static List<Education> getAllEducations() {
         return MyEntityManager.get()
                 .createNamedQuery("Education.findAll", Education.class)

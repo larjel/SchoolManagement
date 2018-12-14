@@ -8,6 +8,7 @@ import javax.persistence.*;
 
 public class StudentJpaController {
 
+    //------------------------------------------------------------------------
     private static boolean studentExists(Student student) {
         try {
             findStudentByPersonalIdNumber(student.getPersonalIdNumber());
@@ -17,6 +18,7 @@ public class StudentJpaController {
         }
     }
 
+    //------------------------------------------------------------------------
     public static Student findStudentByPersonalIdNumber(String personalIdNumber) {
         try {
             return MyEntityManager.get()
@@ -28,6 +30,7 @@ public class StudentJpaController {
         }
     }
 
+    //------------------------------------------------------------------------
     public static Student findStudentById(long id) {
         Student student = MyEntityManager.get().find(Student.class, id);
         if (student == null) {
@@ -36,6 +39,7 @@ public class StudentJpaController {
         return student;
     }
 
+    //------------------------------------------------------------------------
     private static List<Student> findStudentsByEducationID(long educationId) {
         return MyEntityManager.get()
                 .createNamedQuery("Student.findByEducationId", Student.class)
@@ -43,55 +47,37 @@ public class StudentJpaController {
                 .getResultList();
     }
 
+    //------------------------------------------------------------------------
     public static void addStudent(Student student) {
         if (studentExists(student)) {
             throw new RuntimeException("Student already exists");
         }
 
-        final EntityManager em = MyEntityManager.get();
-        final EntityTransaction tx = em.getTransaction();
-        try {
-            tx.begin();
-            em.persist(student);
-            tx.commit();
-        } catch (RuntimeException e) {
-            MyEntityManager.rollback(tx);
-            throw e;
-        }
+        MyEntityManager.executeTransaction(em -> em.persist(student));
     }
 
+    //------------------------------------------------------------------------
     public static void deleteStudent(long id) {
         Student student = findStudentById(id);
 
-        final EntityManager em = MyEntityManager.get();
-        final EntityTransaction tx = em.getTransaction();
-        try {
-            tx.begin();
-            em.remove(student);
-            tx.commit();
-        } catch (RuntimeException e) {
-            MyEntityManager.rollback(tx);
-            throw e;
-        }
+        MyEntityManager.executeTransaction(em -> em.remove(student));
     }
 
+    //------------------------------------------------------------------------
     public static void deleteEducationFromStudents(long educationId) {
         List<Student> students = findStudentsByEducationID(educationId);
 
         if (!students.isEmpty()) {
-            final EntityManager em = MyEntityManager.get();
-            final EntityTransaction tx = em.getTransaction();
-            try {
-                tx.begin();
-                students.forEach(student -> student.setEducation(null));
-                tx.commit();
-            } catch (RuntimeException e) {
-                MyEntityManager.rollback(tx);
-                throw e;
-            }
+            MyEntityManager.executeTransaction(em -> {
+                for (Student student : students) {
+                    student.setEducation(null);
+                    em.merge(student);
+                }
+            });
         }
     }
 
+    //------------------------------------------------------------------------
     public static void setStudentEducation(int studentId, long educationId) {
         Student student = findStudentById(studentId);
         Education education = EducationJpaController.findEducationById(educationId);
@@ -100,18 +86,11 @@ public class StudentJpaController {
             throw new RuntimeException("Student already registered on education");
         }
 
-        final EntityManager em = MyEntityManager.get();
-        final EntityTransaction tx = em.getTransaction();
-        try {
-            tx.begin();
-            student.setEducation(education);
-            tx.commit();
-        } catch (RuntimeException e) {
-            MyEntityManager.rollback(tx);
-            throw e;
-        }
+        student.setEducation(education);
+        MyEntityManager.executeTransaction(em -> em.merge(student));
     }
 
+    //------------------------------------------------------------------------
     public static List<Student> getAllStudents() {
         return MyEntityManager.get()
                 .createNamedQuery("Student.findAll", Student.class)

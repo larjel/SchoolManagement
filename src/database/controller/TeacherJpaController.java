@@ -8,6 +8,7 @@ import javax.persistence.*;
 
 public class TeacherJpaController {
 
+    //------------------------------------------------------------------------
     private static boolean teacherExists(Teacher teacher) {
         try {
             findTeacherByPersonalIdNumber(teacher.getPersonalIdNumber());
@@ -17,6 +18,7 @@ public class TeacherJpaController {
         }
     }
 
+    //------------------------------------------------------------------------
     public static Teacher findTeacherByPersonalIdNumber(String personalIdNumber) {
         try {
             return MyEntityManager.get()
@@ -28,6 +30,7 @@ public class TeacherJpaController {
         }
     }
 
+    //------------------------------------------------------------------------
     public static Teacher findTeacherById(long id) {
         Teacher teacher = MyEntityManager.get().find(Teacher.class, id);
         if (teacher == null) {
@@ -36,23 +39,16 @@ public class TeacherJpaController {
         return teacher;
     }
 
+    //------------------------------------------------------------------------
     public static void addTeacher(Teacher teacher) {
         if (teacherExists(teacher)) {
             throw new RuntimeException("Teacher already exists");
         }
 
-        final EntityManager em = MyEntityManager.get();
-        final EntityTransaction tx = em.getTransaction();
-        try {
-            tx.begin();
-            em.persist(teacher);
-            tx.commit();
-        } catch (RuntimeException e) {
-            MyEntityManager.rollback(tx);
-            throw e;
-        }
+        MyEntityManager.executeTransaction(em -> em.persist(teacher));
     }
 
+    //------------------------------------------------------------------------
     public static void deleteTeacher(long id) {
         Teacher teacher = findTeacherById(id);
 
@@ -61,40 +57,26 @@ public class TeacherJpaController {
         CourseJpaController.deleteTeacherFromCourses(id);
 
         // Delete teacher
-        final EntityManager em = MyEntityManager.get();
-        final EntityTransaction tx = em.getTransaction();
-        try {
-            tx.begin();
-            em.remove(teacher);
-            tx.commit();
-        } catch (RuntimeException e) {
-            MyEntityManager.rollback(tx);
-            throw e;
-        }
+        MyEntityManager.executeTransaction(em -> em.remove(teacher));
     }
 
+    //------------------------------------------------------------------------
     public static void updateTeacherSalary(long id, int salary) {
         Teacher teacher = findTeacherById(id);
 
         if (teacher.getSalary() != salary) {
-            final EntityManager em = MyEntityManager.get();
-            final EntityTransaction tx = em.getTransaction();
-            try {
-                tx.begin();
-                teacher.setSalary(salary);
-                tx.commit();
-            } catch (RuntimeException e) {
-                MyEntityManager.rollback(tx);
-                throw e;
-            }
+            teacher.setSalary(salary);
+            MyEntityManager.executeTransaction(em -> em.merge(teacher));
         }
     }
 
+    //------------------------------------------------------------------------
     public static List<Course> getTeacherCourses(long id) {
         Teacher teacher = findTeacherById(id);
         return teacher.getCourses();
     }
 
+    //------------------------------------------------------------------------
     public static List<Teacher> getAllTeachers() {
         return MyEntityManager.get()
                 .createNamedQuery("Teacher.findAll", Teacher.class)
