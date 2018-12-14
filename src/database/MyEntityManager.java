@@ -87,14 +87,4 @@ public class MyEntityManager {
         }
     }
 
-    /**
-     * Remove the data for entities of the specified class (and its subclasses)
-     * from the cache.
-     *
-     * @param cls entity class
-     */
-    public static void evictCache(Class cls) {
-        emf.getCache().evict(cls);
-    }
-
 }
