@@ -87,14 +87,17 @@ public class EducationJpaController {
 
     public static List<Course> getAllCoursesInEducation(long id) {
         Education education = findEducationById(id);
-        // Refresh the entity in case any courses has been deleted (via the
-        // course menu), otherwise the returned list is not updated
+        // Refresh the entity in case a course has been deleted/changed
+        // via the course menu, otherwise the returned list may not be updated
         MyEntityManager.get().refresh(education);
         return education.getCourses();
     }
 
     public static List<Student> getAllStudentsInEducation(long id) {
         Education education = findEducationById(id);
+        // Refresh the entity in case a student has been deleted/changed
+        // via the students menu, otherwise the returned list may not be updated
+        MyEntityManager.get().refresh(education);
         return education.getStudents();
     }
 
