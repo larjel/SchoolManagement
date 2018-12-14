@@ -96,9 +96,6 @@
             <jpa:many-to-many own="true" collection-type="java.util.List" cit="java.util.ArrayList" connected-entity-id="_15442149093543" connected-attribute-id="_154422304510639" fetch="LAZY" v="true" xvt="" name="courses" id="_154422304510438">
                 <jpa:xwm/>
                 <jpa:xm/>
-                <jpa:cascade>
-                    <jpa:cascade-persist/>
-                </jpa:cascade>
             </jpa:many-to-many>
             <jpa:id attribute-type="Long" v="true" xvt="" name="id" id="_154421492558710">
                 <jpa:xwm/>
