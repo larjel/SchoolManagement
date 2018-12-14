@@ -1,7 +1,7 @@
 package main;
 
-import menus.MainMenu;
 import database.MyEntityManager;
+import menus.MainMenu;
 
 /**
  * Slutprojekt - School Management
@@ -15,7 +15,7 @@ public class Main {
      */
     public static void main(String[] args) {
         try {
-            MyEntityManager.create("DEFAULT_PU");
+            MyEntityManager.create("SchoolPU");
             while (MainMenu.run()) {
             }
         } finally {
