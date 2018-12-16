@@ -80,11 +80,8 @@ public class StudentJpaController {
     //------------------------------------------------------------------------
     public static void setStudentEducation(int studentId, long educationId) {
         Student student = findStudentById(studentId);
-        Education education = EducationJpaController.findEducationById(educationId);
-
-        if (education.equals(student.getEducation())) {
-            throw new RuntimeException("Student already registered on education");
-        }
+        Education education = (educationId == -1) ? null
+                : EducationJpaController.findEducationById(educationId);
 
         student.setEducation(education);
         MyEntityManager.executeTransaction(em -> em.merge(student));
