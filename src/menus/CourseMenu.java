@@ -154,7 +154,7 @@ public enum CourseMenu implements MenuInterface {
         System.out.println("Available teachers->");
         TeacherMenu.listTeachers();
 
-        System.out.print("Teacher ID: ");
+        System.out.print("Teacher ID (or enter -1 to just remove the current teacher): ");
         int teacherId = SystemInput.getIntAbortOnEmpty();
 
         CourseJpaController.setCourseTeacher(courseId, teacherId);
