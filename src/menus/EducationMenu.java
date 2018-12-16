@@ -21,6 +21,7 @@ public enum EducationMenu implements MenuInterface {
     OPT_ADD_EDUCATION(4, "Add education"),
     OPT_DELETE_EDUCATION(5, "Delete education"),
     OPT_ADD_COURSE_TO_EDUCATION(6, "Add course to education"),
+    OPT_REMOVE_COURSE_FROM_EDUCATION(7, "Remove course from education"),
     OPT_EXIT(0, "Back to main menu");
 
     private final int numeric;
@@ -71,6 +72,9 @@ public enum EducationMenu implements MenuInterface {
                     break;
                 case OPT_ADD_COURSE_TO_EDUCATION:
                     addCourseToEducation();
+                    break;
+                case OPT_REMOVE_COURSE_FROM_EDUCATION:
+                    removeCourseFromEducation();
                     break;
                 case OPT_INVALID:
                 default:
@@ -142,6 +146,23 @@ public enum EducationMenu implements MenuInterface {
         EducationJpaController.addCourseToEducation(educationId, courseId);
 
         System.out.println(">>> Course added successfully to education!");
+    }
+
+    //--------------------------------------------------------------
+    private static void removeCourseFromEducation() throws SystemInputAbortedException {
+        System.out.print("Education ID: ");
+        int educationId = SystemInput.getIntAbortOnEmpty();
+
+        System.out.println("Registered courses in education->");
+        List<Course> courses = EducationJpaController.getAllCoursesInEducation(educationId);
+        CourseMenu.listCourses(courses);
+
+        System.out.print("ID of course to remove: ");
+        int courseId = SystemInput.getIntAbortOnEmpty();
+
+        EducationJpaController.removeCourseFromEducation(educationId, courseId);
+
+        System.out.println(">>> Course removed successfully from education!");
     }
 
     //--------------------------------------------------------------
