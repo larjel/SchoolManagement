@@ -55,6 +55,20 @@ public class EducationJpaController {
     }
 
     //------------------------------------------------------------------------
+    public static void removeCourseFromEducation(long educationId, long courseId) {
+        Education education = findEducationById(educationId);
+        Course course = CourseJpaController.findCourseById(courseId);
+
+        // Check that course is in education
+        if (education.getCourses() == null || !education.getCourses().contains(course)) {
+            throw new RuntimeException("Course is not registered to education");
+        }
+
+        education.removeCourse(course);
+        MyEntityManager.executeTransaction(em -> em.merge(education));
+    }
+
+    //------------------------------------------------------------------------
     public static void deleteEducation(long id) {
         Education education = findEducationById(id);
 
