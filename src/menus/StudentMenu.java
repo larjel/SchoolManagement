@@ -138,7 +138,7 @@ public enum StudentMenu implements MenuInterface {
         System.out.println("Available educations->");
         EducationMenu.listEducations();
 
-        System.out.print("Enter ID of education: ");
+        System.out.print("Enter ID of education (or -1 to deregister student from education): ");
         int educationId = SystemInput.getIntAbortOnEmpty();
 
         StudentJpaController.setStudentEducation(studentId, educationId);
