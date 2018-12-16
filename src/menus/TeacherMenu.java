@@ -15,8 +15,8 @@ public enum TeacherMenu implements MenuInterface {
     OPT_INVALID(-1, "Invalid"), // First enum is required to be 'invalid'
     OPT_LIST_TEACHERS(1, "List teachers"),
     OPT_ADD_TEACHER(2, "Add teacher"),
-    OPT_UPDATE_TEACHER_SALARY(3, "Update teacher salary"),
-    OPT_DELETE_TEACHER(4, "Delete teacher"),
+    OPT_DELETE_TEACHER(3, "Delete teacher"),
+    OPT_UPDATE_TEACHER_SALARY(4, "Update teacher salary"),
     OPT_EXIT(0, "Back to main menu");
 
     private final int numeric;
