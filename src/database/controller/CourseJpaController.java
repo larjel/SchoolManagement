@@ -58,7 +58,8 @@ public class CourseJpaController {
     //------------------------------------------------------------------------
     public static void setCourseTeacher(long courseId, long teacherId) {
         Course course = findCourseById(courseId);
-        Teacher teacher = TeacherJpaController.findTeacherById(teacherId);
+        Teacher teacher = (teacherId == -1) ? null
+                : TeacherJpaController.findTeacherById(teacherId);
 
         course.setTeacher(teacher);
         MyEntityManager.executeTransaction(em -> em.merge(course));
