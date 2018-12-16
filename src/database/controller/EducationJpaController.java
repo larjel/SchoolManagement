@@ -46,7 +46,7 @@ public class EducationJpaController {
         Course course = CourseJpaController.findCourseById(courseId);
 
         // Check that course is not already in education
-        if (education.getCourses() != null && education.getCourses().contains(course)) {
+        if (education.getCourses().contains(course)) {
             throw new RuntimeException("Course already in education");
         }
 
@@ -60,7 +60,7 @@ public class EducationJpaController {
         Course course = CourseJpaController.findCourseById(courseId);
 
         // Check that course is in education
-        if (education.getCourses() == null || !education.getCourses().contains(course)) {
+        if (!education.getCourses().contains(course)) {
             throw new RuntimeException("Course is not registered to education");
         }
 
