@@ -18,7 +18,7 @@ public interface MenuInterface {
      * @param title Menu title
      * @param enums Enum values (enum.values())
      */
-    public static <E extends Enum<E> & MenuInterface> void printMenu(String title, E[] enums) {
+    static <E extends Enum<E> & MenuInterface> void printMenu(String title, E[] enums) {
         System.out.println("========== " + title + " ==========");
         for (E e : enums) {
             if (e.ordinal() != 0) { // Position 0 should always hold the 'invalid' enum
@@ -36,7 +36,7 @@ public interface MenuInterface {
      * @return The found enum or the enum at position 0 (which should be the
      * 'invalid' enum) if no match found.
      */
-    public static <E extends Enum<E> & MenuInterface> E numericToEnum(int numeric, E[] enums) {
+    static <E extends Enum<E> & MenuInterface> E numericToEnum(int numeric, E[] enums) {
         for (E e : enums) {
             if (e.getNumeric() == numeric) {
                 return e;
