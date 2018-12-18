@@ -86,7 +86,7 @@ public enum StudentMenu implements MenuInterface {
             System.out.println(">>> No students found");
         } else {
             System.out.println("-------------------- STUDENTS --------------------");
-            DisplayInfo di = new DisplayInfo("ID   ",
+            DisplayInfo di = new DisplayInfo("ID    ",
                     "NAME              ", "PERS.ID#       ", "STUDYING          ");
             di.printHeader();
             for (Student student : students) {

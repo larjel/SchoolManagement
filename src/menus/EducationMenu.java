@@ -101,7 +101,7 @@ public enum EducationMenu implements MenuInterface {
             System.out.println(">>> No educations found");
         } else {
             System.out.println("---------------- EDUCATIONS ----------------");
-            DisplayInfo di = new DisplayInfo("ID   ", "NAME            ");
+            DisplayInfo di = new DisplayInfo("ID    ", "NAME            ");
             di.printHeader();
             for (Education education : educations) {
                 String id = Long.toString(education.getId());

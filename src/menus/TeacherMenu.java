@@ -87,7 +87,7 @@ public enum TeacherMenu implements MenuInterface {
             System.out.println(">>> No teachers found");
         } else {
             System.out.println("------------------ TEACHERS ------------------");
-            DisplayInfo di = new DisplayInfo("ID   ",
+            DisplayInfo di = new DisplayInfo("ID    ",
                     "NAME                ", "PERS.ID#       ", "SALARY     ");
             di.printHeader();
             for (Teacher teacher : teachers) {

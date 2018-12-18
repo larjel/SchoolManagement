@@ -90,7 +90,7 @@ public enum CourseMenu implements MenuInterface {
             System.out.println(">>> No courses found");
         } else {
             System.out.println("---------------- COURSES ----------------");
-            DisplayInfo di = new DisplayInfo("ID   ",
+            DisplayInfo di = new DisplayInfo("ID    ",
                     "NAME                ", "POINTS  ", "TEACHER           ");
             di.printHeader();
             for (Course course : courses) {
