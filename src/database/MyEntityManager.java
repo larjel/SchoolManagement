@@ -74,36 +74,26 @@ public class MyEntityManager {
     }
 
     /**
-     * Helper method to rollback a transaction.
-     *
-     * @param tx Entity transaction to roll back
-     */
-    public static void rollback(EntityTransaction tx) {
-        if (tx.isActive()) {
-            try {
-                tx.rollback();
-            } catch (RuntimeException e) {
-                System.err.println("ROLLBACK FAILURE: " + e.getMessage());
-            }
-        }
-    }
-
-    /**
      * Execute a JPA transaction
      *
      * @param action the lambda expression to execute<br>
      * Example: em -> em.remove(entity)
      */
     public static void executeTransaction(Consumer<EntityManager> action) {
-        final EntityManager em = MyEntityManager.get();
         final EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
             action.accept(em);
             tx.commit();
-        } catch (RuntimeException e) {
-            rollback(tx);
-            throw e;
+        } catch (RuntimeException e1) {
+            if (tx.isActive()) {
+                try {
+                    tx.rollback();
+                } catch (RuntimeException e2) {
+                    System.err.println("ROLLBACK FAILURE: " + e2.getMessage());
+                }
+            }
+            throw e1;
         }
     }
 
