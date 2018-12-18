@@ -80,10 +80,10 @@ public class MyEntityManager {
      * Example: em -> em.remove(entity)
      */
     public static void executeTransaction(Consumer<EntityManager> action) {
-        final EntityTransaction tx = em.getTransaction();
+        final EntityTransaction tx = get().getTransaction();
         try {
             tx.begin();
-            action.accept(em);
+            action.accept(get());
             tx.commit();
         } catch (RuntimeException e1) {
             if (tx.isActive()) {
