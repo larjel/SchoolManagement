@@ -33,7 +33,7 @@ public class Education implements Serializable {
     private Long id;
 
     @Basic
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, length = 50)
     private String name;
 
     @OneToMany(mappedBy = "education", fetch = FetchType.LAZY)

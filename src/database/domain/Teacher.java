@@ -33,11 +33,11 @@ public class Teacher implements Serializable {
     private Long id;
 
     @Basic
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String name;
 
     @Basic
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, length = 50)
     private String personalIdNumber;
 
     @Basic
