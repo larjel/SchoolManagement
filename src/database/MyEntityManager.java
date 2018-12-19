@@ -29,7 +29,7 @@ public class MyEntityManager {
      * @param persistenceUnitName Persistence unit name.
      * @return the EntityManager
      */
-    public static EntityManager create(String persistenceUnitName) {
+    synchronized public static EntityManager create(String persistenceUnitName) {
         if (emf != null) {
             close();
         }
