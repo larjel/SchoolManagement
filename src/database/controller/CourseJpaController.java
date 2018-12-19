@@ -12,6 +12,28 @@ import javax.persistence.*;
 public class CourseJpaController {
 
     //------------------------------------------------------------------------
+    public static long getNumberOfCourses() {
+        try {
+            return MyEntityManager.get()
+                    .createNamedQuery("Course.getNumberOfCourses", Long.class)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return 0;
+        }
+    }
+
+    //------------------------------------------------------------------------
+    public static long getNumberOfCoursesWithNoTeacher() {
+        try {
+            return MyEntityManager.get()
+                    .createNamedQuery("Course.getNumberOfCoursesWithNoTeacher", Long.class)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return 0;
+        }
+    }
+
+    //------------------------------------------------------------------------
     private static boolean courseExists(Course course) {
         try {
             findCourseByName(course.getName());

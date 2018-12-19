@@ -12,6 +12,28 @@ import javax.persistence.*;
 public class StudentJpaController {
 
     //------------------------------------------------------------------------
+    public static long getNumberOfStudents() {
+        try {
+            return MyEntityManager.get()
+                    .createNamedQuery("Student.getNumberOfStudents", Long.class)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return 0;
+        }
+    }
+
+    //------------------------------------------------------------------------
+    public static long getNumberOfUnregisteredStudents() {
+        try {
+            return MyEntityManager.get()
+                    .createNamedQuery("Student.getNumberOfUnregisteredStudents", Long.class)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return 0;
+        }
+    }
+
+    //------------------------------------------------------------------------
     private static boolean studentExists(Student student) {
         try {
             findStudentByPersonalIdNumber(student.getPersonalIdNumber());

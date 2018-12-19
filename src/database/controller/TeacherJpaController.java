@@ -12,6 +12,17 @@ import javax.persistence.*;
 public class TeacherJpaController {
 
     //------------------------------------------------------------------------
+    public static long getNumberOfTeachers() {
+        try {
+            return MyEntityManager.get()
+                    .createNamedQuery("Teacher.getNumberOfTeachers", Long.class)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return 0;
+        }
+    }
+
+    //------------------------------------------------------------------------
     private static boolean teacherExists(Teacher teacher) {
         try {
             findTeacherByPersonalIdNumber(teacher.getPersonalIdNumber());

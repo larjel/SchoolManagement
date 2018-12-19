@@ -13,6 +13,17 @@ import javax.persistence.*;
 public class EducationJpaController {
 
     //------------------------------------------------------------------------
+    public static long getNumberOfEducations() {
+        try {
+            return MyEntityManager.get()
+                    .createNamedQuery("Education.getNumberOfEducations", Long.class)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return 0;
+        }
+    }
+
+    //------------------------------------------------------------------------
     private static boolean educationExists(Education education) {
         try {
             MyEntityManager.get()
