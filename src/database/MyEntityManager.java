@@ -27,7 +27,7 @@ public class MyEntityManager {
      * @param persistenceUnitName Persistence unit name.
      * @return the EntityManager
      */
-    synchronized public static EntityManager create(String persistenceUnitName) {
+    public static synchronized EntityManager create(String persistenceUnitName) {
         if (emf != null) {
             close();
         }
