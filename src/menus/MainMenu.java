@@ -67,8 +67,6 @@ public enum MainMenu implements MenuInterface {
                 break;
             case OPT_SHOW_STATISTICS:
                 showStatistics();
-                System.out.println("Press Enter to continue...");
-                SystemInput.getString();
                 break;
             case OPT_INVALID:
             default:
@@ -81,21 +79,29 @@ public enum MainMenu implements MenuInterface {
 
     //--------------------------------------------------------------
     private static void showStatistics() {
-        long studentCount = StudentJpaController.getNumberOfStudents();
-        long teacherCount = TeacherJpaController.getNumberOfTeachers();
-        long educationCount = EducationJpaController.getNumberOfEducations();
-        long courseCount = CourseJpaController.getNumberOfCourses();
-        long unregisteredStudentsCount = StudentJpaController.getNumberOfUnregisteredStudents();
-        long coursesWithNoTeacherCount = CourseJpaController.getNumberOfCoursesWithNoTeacher();
-        int averageTeacherSalary = (int) TeacherJpaController.getAverageSalary();
+        try {
+            long studentCount = StudentJpaController.getNumberOfStudents();
+            long teacherCount = TeacherJpaController.getNumberOfTeachers();
+            long educationCount = EducationJpaController.getNumberOfEducations();
+            long courseCount = CourseJpaController.getNumberOfCourses();
+            long unregisteredStudentsCount = StudentJpaController.getNumberOfUnregisteredStudents();
+            long coursesWithNoTeacherCount = CourseJpaController.getNumberOfCoursesWithNoTeacher();
+            int averageTeacherSalary = (int) TeacherJpaController.getAverageSalary();
 
-        System.out.println("--------------------- STATISTICS ---------------------");
-        System.out.println(" * There are " + studentCount + " students and " + teacherCount + " teachers at the school.");
-        System.out.println(" * " + educationCount + " educations and " + courseCount + " courses are available.");
-        System.out.println(" * " + unregisteredStudentsCount + " students are not registered to an education.");
-        System.out.println(" * " + coursesWithNoTeacherCount + " courses have no assigned teacher.");
-        System.out.println(" * The average teacher salary is " + averageTeacherSalary + " kr.");
-        System.out.println("------------------------------------------------------");
+            System.out.println("--------------------- STATISTICS ---------------------");
+            System.out.println(" * There are " + studentCount + " students and " + teacherCount + " teachers at the school.");
+            System.out.println(" * " + educationCount + " educations and " + courseCount + " courses are available.");
+            System.out.println(" * " + unregisteredStudentsCount + " students are not registered to an education.");
+            System.out.println(" * " + coursesWithNoTeacherCount + " courses have no assigned teacher.");
+            System.out.println(" * The average teacher salary is " + averageTeacherSalary + " kr.");
+            System.out.println("------------------------------------------------------");
+
+        } catch (RuntimeException e) {
+            System.out.println(">>> Error while fetching statistics from database!");
+        }
+
+        System.out.println("Press Enter to continue...");
+        SystemInput.getString();
     }
 
 }
