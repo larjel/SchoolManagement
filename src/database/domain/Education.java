@@ -74,7 +74,7 @@ public class Education implements Serializable {
             return false;
         }
         final Education other = (Education) obj;
-        return this.name.equalsIgnoreCase(other.name);
+        return this.name.toLowerCase(Locale.ROOT).equals(other.name.toLowerCase(Locale.ROOT));
     }
 
     public Long getId() {
