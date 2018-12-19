@@ -23,7 +23,8 @@ import javax.persistence.OneToMany;
     @NamedQuery(name = "Teacher.findAll", query = "SELECT t FROM Teacher t")
     , @NamedQuery(name = "Teacher.findById", query = "SELECT t FROM Teacher t WHERE t.id = :id")
     , @NamedQuery(name = "Teacher.findByName", query = "SELECT t FROM Teacher t WHERE t.name = :name")
-    , @NamedQuery(name = "Teacher.findByPersonalIdNumber", query = "SELECT t FROM Teacher t WHERE t.personalIdNumber = :personalIdNumber")})
+    , @NamedQuery(name = "Teacher.findByPersonalIdNumber", query = "SELECT t FROM Teacher t WHERE t.personalIdNumber = :personalIdNumber")
+    , @NamedQuery(name = "Teacher.getNumberOfTeachers", query = "SELECT COUNT(t) FROM Teacher t")})
 public class Teacher implements Serializable {
 
     private static final long serialVersionUID = 1L;

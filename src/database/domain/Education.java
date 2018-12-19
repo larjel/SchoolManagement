@@ -24,7 +24,8 @@ import javax.persistence.OneToMany;
 @NamedQueries({
     @NamedQuery(name = "Education.findAll", query = "SELECT e FROM Education e")
     , @NamedQuery(name = "Education.findById", query = "SELECT e FROM Education e WHERE e.id = :id")
-    , @NamedQuery(name = "Education.findByName", query = "SELECT e FROM Education e WHERE e.name = :name")})
+    , @NamedQuery(name = "Education.findByName", query = "SELECT e FROM Education e WHERE e.name = :name")
+    , @NamedQuery(name = "Education.getNumberOfEducations", query = "SELECT COUNT(e) FROM Education e")})
 public class Education implements Serializable {
 
     private static final long serialVersionUID = 1L;

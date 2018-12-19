@@ -22,7 +22,9 @@ import javax.persistence.NamedQuery;
     , @NamedQuery(name = "Student.findById", query = "SELECT s FROM Student s WHERE s.id = :id")
     , @NamedQuery(name = "Student.findByName", query = "SELECT s FROM Student s WHERE s.name = :name")
     , @NamedQuery(name = "Student.findByEducationId", query = "SELECT s FROM Student s WHERE s.education.id = :educationId")
-    , @NamedQuery(name = "Student.findByPersonalIdNumber", query = "SELECT s FROM Student s WHERE s.personalIdNumber = :personalIdNumber")})
+    , @NamedQuery(name = "Student.findByPersonalIdNumber", query = "SELECT s FROM Student s WHERE s.personalIdNumber = :personalIdNumber")
+    , @NamedQuery(name = "Student.getNumberOfStudents", query = "SELECT COUNT(s) FROM Student s")
+    , @NamedQuery(name = "Student.getNumberOfUnregisteredStudents", query = "SELECT COUNT(s) FROM Student s WHERE s.education IS NULL")})
 public class Student implements Serializable {
 
     private static final long serialVersionUID = 1L;
