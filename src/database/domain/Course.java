@@ -3,6 +3,7 @@ package database.domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -71,7 +72,7 @@ public class Course implements Serializable {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 59 * hash + Objects.hashCode(this.name.toUpperCase());
+        hash = 59 * hash + Objects.hashCode(this.name.toLowerCase(Locale.ROOT));
         return hash;
     }
 
