@@ -23,6 +23,17 @@ public class TeacherJpaController {
     }
 
     //------------------------------------------------------------------------
+    public static double getAverageSalary() {
+        try {
+            return MyEntityManager.get()
+                    .createNamedQuery("Teacher.getAverageSalary", Double.class)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return 0;
+        }
+    }
+
+    //------------------------------------------------------------------------
     private static boolean teacherExists(Teacher teacher) {
         try {
             findTeacherByPersonalIdNumber(teacher.getPersonalIdNumber());
