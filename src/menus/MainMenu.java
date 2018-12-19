@@ -1,5 +1,9 @@
 package menus;
 
+import database.controller.CourseJpaController;
+import database.controller.EducationJpaController;
+import database.controller.StudentJpaController;
+import database.controller.TeacherJpaController;
 import userio.SystemInput;
 
 /**
@@ -12,6 +16,7 @@ public enum MainMenu implements MenuInterface {
     OPT_MANAGE_TEACHERS(2, "Manage teachers"),
     OPT_MANAGE_COURSES(3, "Manage courses"),
     OPT_MANAGE_EDUCATIONS(4, "Manage educations"),
+    OPT_SHOW_STATISTICS(5, "Show statistics"),
     OPT_EXIT(0, "Exit program");
 
     private final int numeric;
@@ -60,6 +65,11 @@ public enum MainMenu implements MenuInterface {
                 while (EducationMenu.run()) {
                 }
                 break;
+            case OPT_SHOW_STATISTICS:
+                showStatistics();
+                System.out.println("Press Enter to continue...");
+                SystemInput.getString();
+                break;
             case OPT_INVALID:
             default:
                 System.out.println(">>> Invalid menu choice! Try again.");
@@ -67,6 +77,23 @@ public enum MainMenu implements MenuInterface {
         }
 
         return true;
+    }
+
+    //--------------------------------------------------------------
+    private static void showStatistics() {
+        long studentCount = StudentJpaController.getNumberOfStudents();
+        long teacherCount = TeacherJpaController.getNumberOfTeachers();
+        long educationCount = EducationJpaController.getNumberOfEducations();
+        long courseCount = CourseJpaController.getNumberOfCourses();
+        long unregisteredStudentsCount = StudentJpaController.getNumberOfUnregisteredStudents();
+        long coursesWithNoTeacherCount = CourseJpaController.getNumberOfCoursesWithNoTeacher();
+
+        System.out.println("--------------------- STATISTICS ---------------------");
+        System.out.println(" * There are " + studentCount + " students and " + teacherCount + " teachers at the school.");
+        System.out.println(" * " + educationCount + " educations and " + courseCount + " courses are available.");
+        System.out.println(" * " + unregisteredStudentsCount + " students are not registered to an education.");
+        System.out.println(" * " + coursesWithNoTeacherCount + " courses have no assigned teacher.");
+        System.out.println("------------------------------------------------------");
     }
 
 }
