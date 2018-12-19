@@ -4,8 +4,6 @@ import java.util.function.Consumer;
 import javax.persistence.*;
 
 /**
- * Lab 5: JPA CRUD - World Database
- *
  * Class that holds one instance of the EntityManagerFactory and EntityManager.
  * For accessing ONE database in a single-threaded application.
  *

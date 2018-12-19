@@ -6,6 +6,9 @@ import database.domain.Teacher;
 import java.util.List;
 import javax.persistence.*;
 
+/**
+ * @author Lars Jelleryd
+ */
 public class CourseJpaController {
 
     //------------------------------------------------------------------------
