@@ -129,7 +129,7 @@ public enum TeacherMenu implements MenuInterface {
         System.out.print("Name: ");
         String name = SystemInput.getStringAbortOnEmpty();
 
-        System.out.print("Personal ID number: ");
+        System.out.print("Personal ID number (YYYYMMDD-NNNN): ");
         String idNum = SystemInput.getStringAbortOnEmpty();
 
         System.out.print("Salary: ");
