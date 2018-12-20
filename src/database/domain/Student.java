@@ -1,14 +1,8 @@
 package database.domain;
 
 import java.io.Serializable;
-import java.util.Objects;
-import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -25,21 +19,9 @@ import javax.persistence.NamedQuery;
     , @NamedQuery(name = "Student.findByPersonalIdNumber", query = "SELECT s FROM Student s WHERE s.personalIdNumber = :personalIdNumber")
     , @NamedQuery(name = "Student.getNumberOfStudents", query = "SELECT COUNT(s) FROM Student s")
     , @NamedQuery(name = "Student.getNumberOfUnregisteredStudents", query = "SELECT COUNT(s) FROM Student s WHERE s.education IS NULL")})
-public class Student implements Serializable {
+public class Student extends Person implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    @Basic
-    @Column(nullable = false, length = 50)
-    private String name;
-
-    @Basic
-    @Column(unique = true, nullable = false, length = 50)
-    private String personalIdNumber;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Education education;
@@ -48,65 +30,18 @@ public class Student implements Serializable {
     }
 
     public Student(String name, String personalIdNumber) {
-        this.name = name;
-        this.personalIdNumber = personalIdNumber;
+        super(name, personalIdNumber);
     }
 
     public Student(String name, String personalIdNumber, Education education) {
-        this.name = name;
-        this.personalIdNumber = personalIdNumber;
+        super(name, personalIdNumber);
         this.education = education;
     }
 
     @Override
     public String toString() {
-        return "Student{" + "id=" + id + ", name=" + name + ", personalIdNumber=" + personalIdNumber + ", education=" + education.getName() + '}';
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 97 * hash + Objects.hashCode(this.personalIdNumber);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Student other = (Student) obj;
-        return this.personalIdNumber.equals(other.personalIdNumber);
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPersonalIdNumber() {
-        return personalIdNumber;
-    }
-
-    public void setPersonalIdNumber(String personalIdNumber) {
-        this.personalIdNumber = personalIdNumber;
+        return "Student{" + "id=" + super.getId() + ", name=" + super.getName()
+                + ", personalIdNumber=" + super.getPersonalIdNumber() + ", education=" + education.getName() + '}';
     }
 
     public Education getEducation() {

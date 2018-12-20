@@ -3,14 +3,10 @@ package database.domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -26,21 +22,9 @@ import javax.persistence.OneToMany;
     , @NamedQuery(name = "Teacher.findByPersonalIdNumber", query = "SELECT t FROM Teacher t WHERE t.personalIdNumber = :personalIdNumber")
     , @NamedQuery(name = "Teacher.getNumberOfTeachers", query = "SELECT COUNT(t) FROM Teacher t")
     , @NamedQuery(name = "Teacher.getAverageSalary", query = "SELECT AVG(t.salary) FROM Teacher t")})
-public class Teacher implements Serializable {
+public class Teacher extends Person implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    @Basic
-    @Column(nullable = false, length = 50)
-    private String name;
-
-    @Basic
-    @Column(unique = true, nullable = false, length = 50)
-    private String personalIdNumber;
 
     @Basic
     @Column(nullable = false)
@@ -53,60 +37,15 @@ public class Teacher implements Serializable {
     }
 
     public Teacher(String name, String personalIdNumber, int salary) {
-        this.name = name;
-        this.personalIdNumber = personalIdNumber;
+        super(name, personalIdNumber);
         this.salary = salary;
     }
 
     @Override
     public String toString() {
-        return "Teacher{" + "id=" + id + ", name=" + name + ", personalIdNumber=" + personalIdNumber + ", salary=" + salary + ", courses=" + courses + '}';
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 61 * hash + Objects.hashCode(this.personalIdNumber);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Teacher other = (Teacher) obj;
-        return this.personalIdNumber.equals(other.personalIdNumber);
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPersonalIdNumber() {
-        return personalIdNumber;
-    }
-
-    public void setPersonalIdNumber(String personalIdNumber) {
-        this.personalIdNumber = personalIdNumber;
+        return "Teacher{" + "id=" + super.getId() + ", name=" + super.getName()
+                + ", personalIdNumber=" + super.getPersonalIdNumber() + ", salary="
+                + salary + ", courses=" + courses + '}';
     }
 
     public int getSalary() {
