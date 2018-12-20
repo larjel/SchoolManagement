@@ -1,5 +1,7 @@
 package database.domain;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -33,6 +35,34 @@ public class Person {
     public Person(String name, String personalIdNumber) {
         this.name = name;
         this.personalIdNumber = personalIdNumber;
+    }
+
+    /**
+     * Verify a personal ID number (personnummer). It should be on the format:
+     * YYYYMMDD-NNNN. There is no check of the last checksum digit, just the
+     * date part, delimiter and that the last four characters are digits.
+     *
+     * @param personalIdNumber presumed personal ID number to verify
+     * @return true if verification passed, else false
+     */
+    public static boolean verifyPersonalIdNumber(String personalIdNumber) {
+        boolean verified = false;
+        try {
+            // Expected format: YYYYMMDD-NNNN
+            // Example: 19671201-0204
+            if (personalIdNumber.length() == 13) {
+                String[] parts = personalIdNumber.split("-");
+                if (parts.length == 2 && parts[0].length() == 8 && parts[1].length() == 4) {
+                    // Verify date part. Throws DateTimeParseException if not a valid date.
+                    LocalDate.parse(parts[0], DateTimeFormatter.ofPattern("yyyyMMdd"));
+                    // Verify that last four characters are digits, if not NumberFormatException is thrown.
+                    Integer.parseInt(parts[1]);
+                    verified = true;
+                }
+            }
+        } catch (RuntimeException e) {
+        }
+        return verified;
     }
 
     @Override
