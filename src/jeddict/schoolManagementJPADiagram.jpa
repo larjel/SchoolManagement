@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<jpa:entity-mappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:java="http://jcp.org/en/jsr/detail?id=270" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jpa="http://java.sun.com/xml/ns/persistence/orm" ptype="MONOLITH" ppkg="database.temp" epkg="domain" v="5.2" rws="_15442148571622" Pws="_15442148571622" cws="_15442148571622" persistenceUnitName="DEFAULT_PU" sm="false" xs="false" id="_15442148571611" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm orm_2_1.xsd">
+<jpa:entity-mappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:java="http://jcp.org/en/jsr/detail?id=270" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jpa="http://java.sun.com/xml/ns/persistence/orm" ptype="MONOLITH" ppkg="database.temp" epkg="domain" v="5.2" rws="_15442148571622" Pws="_15442148571622" cws="_15442148571622" persistenceUnitName="SchoolPU" pp="E" sm="false" xs="false" id="_15442148571611" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm orm_2_1.xsd">
+    <jpa:mapped-superclass compositePrimaryKeyClass="PersonPK" abs="false" class="Person" v="true" jbn="false" xre="false" m="false" rootElement="_15442148571611" id="_154526338916034">
+        <jpa:ath>Lars Jelleryd</jpa:ath>
+        <jpa:attributes>
+            <jpa:basic attribute-type="String" v="true" xvt="" name="name" ft="false" id="_154526344605937">
+                <jpa:xwm/>
+                <jpa:xm/>
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="50"/>
+            </jpa:basic>
+            <jpa:basic attribute-type="String" v="true" xvt="" name="personalIdNumber" ft="false" id="_154526346251538">
+                <jpa:xwm/>
+                <jpa:xm/>
+                <jpa:column unique="true" nullable="false" insertable="true" updatable="true" length="50"/>
+            </jpa:basic>
+            <jpa:id attribute-type="Long" v="true" xvt="" name="id" id="_154526343809236">
+                <jpa:xwm/>
+                <jpa:xm/>
+                <jpa:generated-value strategy="DEFAULT"/>
+            </jpa:id>
+        </jpa:attributes>
+    </jpa:mapped-superclass>
     <jpa:entity compositePrimaryKeyClass="CoursePK" abs="false" class="Course" v="true" jbn="false" xre="false" m="false" rootElement="_15442148571611" id="_15442149093543">
         <jpa:ath>Lars Jelleryd</jpa:ath>
         <jpa:attributes>
@@ -37,19 +57,9 @@
             <jpa:query>Select c from Course c where c.points=:points</jpa:query>
         </jpa:nq>
     </jpa:entity>
-    <jpa:entity compositePrimaryKeyClass="TeacherPK" abs="false" class="Teacher" v="true" jbn="false" xre="false" m="false" rootElement="_15442148571611" id="_15442149213996">
+    <jpa:entity compositePrimaryKeyClass="TeacherPK" abs="false" class="Teacher" superclassId="_154526338916034" v="true" jbn="false" xre="false" m="false" rootElement="_15442148571611" id="_15442149213996">
         <jpa:ath>Lars Jelleryd</jpa:ath>
         <jpa:attributes>
-            <jpa:basic attribute-type="String" v="true" xvt="" name="name" ft="false" id="_154455804304617">
-                <jpa:xwm/>
-                <jpa:xm/>
-                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="50"/>
-            </jpa:basic>
-            <jpa:basic attribute-type="String" v="true" xvt="" name="personalIdNumber" ft="false" id="_154455824013718">
-                <jpa:xwm/>
-                <jpa:xm/>
-                <jpa:column unique="true" nullable="false" insertable="true" updatable="true" length="50"/>
-            </jpa:basic>
             <jpa:basic attribute-type="int" v="true" xvt="" name="salary" ft="false" id="_154455801016516">
                 <jpa:xwm/>
                 <jpa:xm/>
@@ -59,11 +69,6 @@
                 <jpa:xwm/>
                 <jpa:xm/>
             </jpa:one-to-many>
-            <jpa:id attribute-type="Long" v="true" xvt="" name="id" id="_15442149214007">
-                <jpa:xwm/>
-                <jpa:xm/>
-                <jpa:generated-value strategy="AUTO"/>
-            </jpa:id>
         </jpa:attributes>
         <jpa:nq e="false" name="Teacher.findAll">
             <jpa:query>Select e from Teacher e</jpa:query>
@@ -110,28 +115,13 @@
             <jpa:query>Select e from Education e where e.name=:name</jpa:query>
         </jpa:nq>
     </jpa:entity>
-    <jpa:entity compositePrimaryKeyClass="StudentPK" abs="false" class="Student" v="true" jbn="false" xre="false" m="false" rootElement="_15442148571611" id="_154421492786212">
+    <jpa:entity compositePrimaryKeyClass="StudentPK" abs="false" class="Student" superclassId="_154526338916034" v="true" jbn="false" xre="false" m="false" rootElement="_15442148571611" id="_154421492786212">
         <jpa:ath>Lars Jelleryd</jpa:ath>
         <jpa:attributes>
-            <jpa:basic attribute-type="String" v="true" xvt="" name="name" ft="false" id="_154455828597920">
-                <jpa:xwm/>
-                <jpa:xm/>
-                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="50"/>
-            </jpa:basic>
-            <jpa:basic attribute-type="String" v="true" xvt="" name="personalIdNumber" ft="false" id="_154455825402719">
-                <jpa:xwm/>
-                <jpa:xm/>
-                <jpa:column unique="true" nullable="false" insertable="true" updatable="true" length="50"/>
-            </jpa:basic>
             <jpa:many-to-one optional="true" primaryKey="false" connected-entity-id="_15442149255869" connected-attribute-id="_154422308940142" fetch="EAGER" v="true" xvt="" name="education" id="_154422308940041">
                 <jpa:xwm/>
                 <jpa:xm/>
             </jpa:many-to-one>
-            <jpa:id attribute-type="Long" v="true" xvt="" name="id" id="_154421492786313">
-                <jpa:xwm/>
-                <jpa:xm/>
-                <jpa:generated-value strategy="AUTO"/>
-            </jpa:id>
         </jpa:attributes>
         <jpa:nq e="false" name="Student.findAll">
             <jpa:query>Select e from Student e</jpa:query>
@@ -161,8 +151,9 @@
         <jpa:ws n="Main" id="_15442148571622">
             <i ref="_15442149255869" x="163" y="318"/>
             <i ref="_15442149213996" x="498" y="77"/>
+            <i ref="_154526338916034" x="761" y="138"/>
             <i ref="_15442149093543" x="178" y="97"/>
-            <i ref="_154421492786212" x="498" y="330"/>
+            <i ref="_154421492786212" x="501" y="328"/>
         </jpa:ws>
     </jpa:wsl>
 </jpa:entity-mappings>
