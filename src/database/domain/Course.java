@@ -3,15 +3,10 @@ package database.domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -29,17 +24,9 @@ import javax.persistence.NamedQuery;
     , @NamedQuery(name = "Course.findByPoints", query = "SELECT c FROM Course c WHERE c.points = :points")
     , @NamedQuery(name = "Course.getNumberOfCourses", query = "SELECT COUNT(c) FROM Course c")
     , @NamedQuery(name = "Course.getNumberOfCoursesWithNoTeacher", query = "SELECT COUNT(c) FROM Course c WHERE c.teacher IS NULL")})
-public class Course implements Serializable {
+public class Course extends Academic implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    @Basic
-    @Column(unique = true, nullable = false, length = 50)
-    private String name;
 
     @Basic
     @Column(nullable = false)
@@ -55,12 +42,12 @@ public class Course implements Serializable {
     }
 
     public Course(String name, int points) {
-        this.name = name;
+        super(name);
         this.points = points;
     }
 
     public Course(String name, int points, Teacher teacher) {
-        this.name = name;
+        super(name);
         this.points = points;
         this.teacher = teacher;
     }
@@ -68,45 +55,8 @@ public class Course implements Serializable {
     @Override
     public String toString() {
         // Note: Do not simply include 'educations' here since it would cause an infinite loop
-        return "Course{" + "id=" + id + ", name=" + name + ", points=" + points + ", teacher=" + teacher.getName() + '}';
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 59 * hash + Objects.hashCode(this.name.toLowerCase(Locale.ROOT));
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Course other = (Course) obj;
-        return this.name.toLowerCase(Locale.ROOT).equals(other.name.toLowerCase(Locale.ROOT));
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        return "Course{" + "id=" + super.getId() + ", name=" + super.getName()
+                + ", points=" + points + ", teacher=" + teacher.getName() + '}';
     }
 
     public int getPoints() {
