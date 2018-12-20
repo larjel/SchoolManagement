@@ -20,14 +20,24 @@
             </jpa:id>
         </jpa:attributes>
     </jpa:mapped-superclass>
-    <jpa:entity compositePrimaryKeyClass="CoursePK" abs="false" class="Course" v="true" jbn="false" xre="false" m="false" rootElement="_15442148571611" id="_15442149093543">
+    <jpa:mapped-superclass compositePrimaryKeyClass="AcademicPK" abs="false" class="Academic" v="true" jbn="false" xre="false" m="false" rootElement="_15442148571611" id="_154526591101795">
         <jpa:ath>Lars Jelleryd</jpa:ath>
         <jpa:attributes>
-            <jpa:basic attribute-type="String" v="true" xvt="" name="name" ft="false" id="_154421574498132">
+            <jpa:basic attribute-type="String" v="true" xvt="" name="name" ft="false" id="_154526594604598">
                 <jpa:xwm/>
                 <jpa:xm/>
                 <jpa:column unique="true" nullable="false" insertable="true" updatable="true" length="50"/>
             </jpa:basic>
+            <jpa:id attribute-type="Long" v="true" xvt="" name="id" id="_154526593758197">
+                <jpa:xwm/>
+                <jpa:xm/>
+                <jpa:generated-value strategy="DEFAULT"/>
+            </jpa:id>
+        </jpa:attributes>
+    </jpa:mapped-superclass>
+    <jpa:entity compositePrimaryKeyClass="CoursePK" abs="false" class="Course" superclassId="_154526591101795" v="true" jbn="false" xre="false" m="false" rootElement="_15442148571611" id="_15442149093543">
+        <jpa:ath>Lars Jelleryd</jpa:ath>
+        <jpa:attributes>
             <jpa:basic attribute-type="int" v="true" xvt="" name="points" ft="false" id="_154421575623833">
                 <jpa:xwm/>
                 <jpa:xm/>
@@ -41,11 +51,6 @@
                 <jpa:xwm/>
                 <jpa:xm/>
             </jpa:many-to-many>
-            <jpa:id attribute-type="Long" v="true" xvt="" name="id" id="_15442149094094">
-                <jpa:xwm/>
-                <jpa:xm/>
-                <jpa:generated-value strategy="AUTO"/>
-            </jpa:id>
         </jpa:attributes>
         <jpa:nq e="false" name="Course.findAll">
             <jpa:query>Select e from Course e</jpa:query>
@@ -86,14 +91,9 @@
             <jpa:query>Select t from Teacher t where t.personalIdNumber=:personalIdNumber</jpa:query>
         </jpa:nq>
     </jpa:entity>
-    <jpa:entity compositePrimaryKeyClass="EducationPK" abs="false" class="Education" v="true" jbn="false" xre="false" m="false" rootElement="_15442148571611" id="_15442149255869">
+    <jpa:entity compositePrimaryKeyClass="EducationPK" abs="false" class="Education" superclassId="_154526591101795" v="true" jbn="false" xre="false" m="false" rootElement="_15442148571611" id="_15442149255869">
         <jpa:ath>Lars Jelleryd</jpa:ath>
         <jpa:attributes>
-            <jpa:basic attribute-type="String" v="true" xvt="" name="name" ft="false" id="_154421573802631">
-                <jpa:xwm/>
-                <jpa:xm/>
-                <jpa:column unique="true" nullable="false" insertable="true" updatable="true" length="50"/>
-            </jpa:basic>
             <jpa:one-to-many orp="false" collection-type="java.util.List" cit="java.util.ArrayList" connected-entity-id="_154421492786212" connected-attribute-id="_154422308940041" fetch="LAZY" v="true" xvt="" name="students" id="_154422308940142">
                 <jpa:xwm/>
                 <jpa:xm/>
@@ -102,11 +102,6 @@
                 <jpa:xwm/>
                 <jpa:xm/>
             </jpa:many-to-many>
-            <jpa:id attribute-type="Long" v="true" xvt="" name="id" id="_154421492558710">
-                <jpa:xwm/>
-                <jpa:xm/>
-                <jpa:generated-value strategy="AUTO"/>
-            </jpa:id>
         </jpa:attributes>
         <jpa:nq e="false" name="Education.findAll">
             <jpa:query>Select e from Education e</jpa:query>
@@ -149,11 +144,12 @@
     </jpa:c>
     <jpa:wsl>
         <jpa:ws n="Main" id="_15442148571622">
-            <i ref="_15442149255869" x="163" y="318"/>
-            <i ref="_15442149213996" x="498" y="77"/>
-            <i ref="_154526338916034" x="761" y="138"/>
-            <i ref="_15442149093543" x="178" y="97"/>
-            <i ref="_154421492786212" x="501" y="328"/>
+            <i ref="_15442149255869" x="134" y="356"/>
+            <i ref="_15442149213996" x="518" y="82"/>
+            <i ref="_154526338916034" x="512" y="243"/>
+            <i ref="_154526591101795" x="52" y="138"/>
+            <i ref="_15442149093543" x="294" y="130"/>
+            <i ref="_154421492786212" x="423" y="401"/>
         </jpa:ws>
     </jpa:wsl>
 </jpa:entity-mappings>
