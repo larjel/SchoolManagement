@@ -87,18 +87,19 @@ public enum TeacherMenu implements MenuInterface {
         if (teachers.isEmpty()) {
             System.out.println(">>> No teachers found");
         } else {
-            System.out.println("------------------ TEACHERS ------------------");
+            System.out.println("--------------------- TEACHERS ---------------------");
             DisplayInfo di = new DisplayInfo("ID    ",
-                    "NAME                ", "PERS.ID#       ", "SALARY     ");
+                    "NAME                ", "PERS.ID#       ", "AGE  ", "SALARY     ");
             di.printHeader();
             for (Teacher teacher : teachers) {
                 String id = Long.toString(teacher.getId());
                 String name = teacher.getName();
                 String personalIdNumber = teacher.getPersonalIdNumber();
+                String age = Integer.toString(Person.personalIdNumberToAge(personalIdNumber));
                 String salary = Integer.toString(teacher.getSalary());
-                di.printRow(id, name, personalIdNumber, salary);
+                di.printRow(id, name, personalIdNumber, age, salary);
             }
-            System.out.println("----------------------------------------------");
+            System.out.println("----------------------------------------------------");
         }
     }
 
