@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 /**
+ * Mapped superclass of Student and Teacher.
+ *
  * @author Lars Jelleryd
  */
 @MappedSuperclass
