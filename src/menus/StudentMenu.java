@@ -1,6 +1,7 @@
 package menus;
 
 import database.controller.StudentJpaController;
+import database.domain.Person;
 import database.domain.Student;
 import java.util.List;
 import userio.DisplayInfo;
@@ -85,19 +86,20 @@ public enum StudentMenu implements MenuInterface {
         if (students.isEmpty()) {
             System.out.println(">>> No students found");
         } else {
-            System.out.println("-------------------- STUDENTS --------------------");
+            System.out.println("---------------------- STUDENTS ----------------------");
             DisplayInfo di = new DisplayInfo("ID    ",
-                    "NAME              ", "PERS.ID#       ", "STUDYING          ");
+                    "NAME                ", "PERS.ID#       ", "AGE  ", "STUDYING          ");
             di.printHeader();
             for (Student student : students) {
                 String id = Long.toString(student.getId());
                 String name = student.getName();
                 String personalIdNumber = student.getPersonalIdNumber();
+                String age = Integer.toString(Person.personalIdNumberToAge(personalIdNumber));
                 String education = (student.getEducation() == null)
                         ? "<Not registered>" : student.getEducation().getName();
-                di.printRow(id, name, personalIdNumber, education);
+                di.printRow(id, name, personalIdNumber, age, education);
             }
-            System.out.println("--------------------------------------------------");
+            System.out.println("------------------------------------------------------");
         }
     }
 
