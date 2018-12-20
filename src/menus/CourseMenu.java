@@ -91,7 +91,7 @@ public enum CourseMenu implements MenuInterface {
         } else {
             System.out.println("---------------- COURSES ----------------");
             DisplayInfo di = new DisplayInfo("ID    ",
-                    "NAME                ", "POINTS  ", "TEACHER           ");
+                    "NAME                   ", "POINTS  ", "TEACHER           ");
             di.printHeader();
             for (Course course : courses) {
                 String id = Long.toString(course.getId());
