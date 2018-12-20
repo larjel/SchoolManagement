@@ -42,6 +42,16 @@ public class Education extends Academic implements Serializable {
                 + ", students=" + students + ", courses=" + courses + '}';
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
     public List<Student> getStudents() {
         if (students == null) {
             students = new ArrayList<>();

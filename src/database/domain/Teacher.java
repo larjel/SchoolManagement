@@ -48,6 +48,16 @@ public class Teacher extends Person implements Serializable {
                 + salary + ", courses=" + courses + '}';
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
     public int getSalary() {
         return salary;
     }
