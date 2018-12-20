@@ -16,6 +16,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             MyEntityManager.create("SchoolPU");
+            MainMenu.showStartMessage();
             while (MainMenu.run()) {
             }
         } finally {
