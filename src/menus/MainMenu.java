@@ -45,7 +45,7 @@ public enum MainMenu implements MenuInterface {
         System.out.println();
         System.out.println("IMPORTANT!");
         System.out.println("You may abort input at any time by just pressing enter!");
-        System.out.println("IMPORTANT!");
+        System.out.println();
     }
 
     //--------------------------------------------------------------
