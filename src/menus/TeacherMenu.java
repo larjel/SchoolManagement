@@ -1,6 +1,7 @@
 package menus;
 
 import database.controller.TeacherJpaController;
+import database.domain.Person;
 import database.domain.Teacher;
 import java.util.List;
 import userio.DisplayInfo;
@@ -125,12 +126,26 @@ public enum TeacherMenu implements MenuInterface {
     }
 
     //--------------------------------------------------------------
+    public static String getPersonalIdNumber() throws SystemInputAbortedException {
+        String idNum = null;
+        do {
+            if (idNum != null) {
+                System.out.println("Bad format! Please try again.");
+            }
+            System.out.print("Personal ID number (YYYYMMDD-NNNN): ");
+            idNum = SystemInput.getStringAbortOnEmpty();
+
+        } while (!Person.verifyPersonalIdNumber(idNum));
+
+        return idNum;
+    }
+
+    //--------------------------------------------------------------
     private static void addTeacher() throws SystemInputAbortedException {
         System.out.print("Name: ");
         String name = SystemInput.getStringAbortOnEmpty();
 
-        System.out.print("Personal ID number (YYYYMMDD-NNNN): ");
-        String idNum = SystemInput.getStringAbortOnEmpty();
+        String idNum = getPersonalIdNumber();
 
         System.out.print("Salary: ");
         int salary = SystemInput.getIntAbortOnEmpty();

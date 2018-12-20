@@ -122,8 +122,7 @@ public enum StudentMenu implements MenuInterface {
         System.out.print("Name: ");
         String name = SystemInput.getStringAbortOnEmpty();
 
-        System.out.print("Personal ID number (YYYYMMDD-NNNN): ");
-        String idNum = SystemInput.getStringAbortOnEmpty();
+        String idNum = TeacherMenu.getPersonalIdNumber();
 
         StudentJpaController.addStudent(new Student(name, idNum));
 
