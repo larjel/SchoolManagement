@@ -2,6 +2,7 @@ package database.domain;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -29,6 +30,11 @@ public class Person {
     @Column(unique = true, nullable = false, length = 50)
     private String personalIdNumber;
 
+    /**
+     * Used date formatter for personal ID number: YYYYMMDD
+     */
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
+
     public Person() {
     }
 
@@ -54,15 +60,34 @@ public class Person {
                 String[] parts = personalIdNumber.split("-");
                 if (parts.length == 2 && parts[0].length() == 8 && parts[1].length() == 4) {
                     // Verify date part. Throws DateTimeParseException if not a valid date.
-                    LocalDate.parse(parts[0], DateTimeFormatter.ofPattern("yyyyMMdd"));
+                    LocalDate.parse(parts[0], DATE_FORMATTER);
                     // Verify that last four characters are digits, if not NumberFormatException is thrown.
                     Integer.parseInt(parts[1]);
                     verified = true;
                 }
             }
-        } catch (RuntimeException e) {
+        } catch (RuntimeException ignore) {
         }
         return verified;
+    }
+
+    /**
+     * Calculate current age from a personal ID number (personnummer).
+     *
+     * @param personalIdNumber personal ID number on format: YYYYMMDD-NNNN
+     * @return age or -1 if age could not be calculated
+     */
+    public static int personalIdNumberToAge(String personalIdNumber) {
+        int age = -1;
+        try {
+            if (personalIdNumber.length() >= 8) {
+                LocalDate birthday = LocalDate.parse(personalIdNumber.substring(0, 8), DATE_FORMATTER);
+                LocalDate now = LocalDate.now();
+                age = (int) birthday.until(now, ChronoUnit.YEARS);
+            }
+        } catch (RuntimeException ignore) {
+        }
+        return age;
     }
 
     @Override
